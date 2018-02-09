@@ -24,20 +24,25 @@ protected:
 	virtual void BeginPlay() override;
     
     TArray<bool> mask_array;
-    virtual void setMaskValue(int row, int column, bool value);
-    virtual bool getMaskValue(int row, int column);
+    
     virtual void initMask(bool value);
-    virtual void spawnObject();
+    virtual void spawnObject() PURE_VIRTUAL(AProceduralBlockBase::spawnObject, ;);
+//    virtual bool getIthSellInMask(uint32 i);
+//    virtual void setIthSellInMask(uint32 i, bool value);
     
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+    
     // Dimensions size
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
-    int XSizeBlocks = 5;
+    int32 XSizeBlocks = 5;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
-    int YSizeBlocks = 10;
+    int32 YSizeBlocks = 10;
+    
+//    virtual uint32 getXSizeBlocks();
+//    virtual uint32 getYSizeBlocks();
 	
     // Blocks sizes (defaults for red brick)
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
@@ -50,7 +55,7 @@ public:
     
     // For Perlin Noise
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Perlin Noise")
-    int Seed = 0;
+    int32 Seed = 0;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Perlin Noise")
     float Octaves = 8;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Perlin Noise")

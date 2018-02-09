@@ -22,8 +22,6 @@ void AProceduralBlockBase::BeginPlay()
     {
         SMComponent->SetStaticMesh(StaticMesh);
     }
-    
-    spawnObject();
 }
 
 // Called every frame
@@ -37,23 +35,19 @@ void AProceduralBlockBase::initMask(bool value){
     mask_array.Init(value, XSizeBlocks*YSizeBlocks);
 }
 
-void AProceduralBlockBase::setMaskValue(int x, int y, bool value){
-    mask_array[XSizeBlocks*y+x] = value;
-}
+//void AProceduralBlockBase::setIthSellInMask(uint32 i, bool value){
+//    mask_array[i] = value;
+//}
+//
+//bool AProceduralBlockBase::getIthSellInMask(uint32 i){
+//    return mask_array[i];
+//}
 
-bool AProceduralBlockBase::getMaskValue(int x, int y){
-    return mask_array[XSizeBlocks*y+x];
-}
+//int32 AProceduralBlockBase::getXSizeBlocks(){
+//    return XSizeBlocks;
+//}
+//
+//int32 AProceduralBlockBase::getYSizeBlocks(){
+//    return YSizeBlocks;
+//}
 
-void AProceduralBlockBase::spawnObject(){
-    for(int x = 0; x < XSizeBlocks; x++){
-        for(int y = 0; y < YSizeBlocks; y++){
-            if(getMaskValue(x, y))
-            {
-                FTransform NewTransf;
-                NewTransf.SetLocation(FVector(BlockWidth * x, BlockDepth * y, BlockHeight));
-                SMComponent->AddInstance(NewTransf);
-            }
-        }
-    }
-}
