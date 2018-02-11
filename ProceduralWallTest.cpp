@@ -21,6 +21,7 @@ void AProceduralWallTest::BeginPlay()
 
     createHoles(holes_number);
     if(cut_wall) cutTheWall();
+
     spawnObject();
 }
 
@@ -85,6 +86,7 @@ void AProceduralWallTest::spawnObject(){
 void AProceduralWallTest::cutTheWall(){
     const double fx = XSizeBlocks / Frequency;
     const siv::PerlinNoise perlin(Seed);
+
     for(int x = 0; x < XSizeBlocks; x++)
     {
         int result_height = YSizeBlocks * perlin.octaveNoise0_1(x / fx, Octaves);

@@ -38,7 +38,6 @@ public:
     int32 XSizeBlocks = 5;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
     int32 YSizeBlocks = 10;
-
 	
     // Blocks sizes (defaults for red brick)
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
