@@ -40,6 +40,12 @@ public:
     // Offset of bricks
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
     bool offset = true;
+    // Offset of odd rows of bricks
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
+    bool odd_offset = true;
+    // Cut the wall
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
+    bool cut_wall = true;
 };
 
 

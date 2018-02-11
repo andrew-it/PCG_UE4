@@ -10,7 +10,7 @@ AProceduralWallTest::AProceduralWallTest()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
     SMComponent = CreateDefaultSubobject < UInstancedStaticMeshComponent >(TEXT("brick"));
-
+//    RootComponent = SMComponent;
 }
 
 // Called when the game starts or when spawned
@@ -18,9 +18,9 @@ void AProceduralWallTest::BeginPlay()
 {
     Super::BeginPlay();
     
-//    initMask(true);
+
     createHoles(holes_number);
-    cutTheWall();
+    if(cut_wall) cutTheWall();
     spawnObject();
 }
 
@@ -61,28 +61,37 @@ void AProceduralWallTest::createHoles(int number){
 }
 
 void AProceduralWallTest::spawnObject(){
-    auto half_brick = BlockWidth / 2;
-    for(int i = 0; i < XSizeBlocks; i++){
-        for(int j = 0; j < YSizeBlocks; j++){
-            if(getMaskValue(i, j))
+    auto initialPosition = GetActorLocation();
+    auto pos = SMComponent->GetComponentLocation();
+//    if(initialPosition.X != pos.X)
+        UE_LOG(LogTemp, Warning, TEXT("SHIT %d %d"), initialPosition.X, pos.X)
+    UE_LOG(LogTemp, Warning, TEXT("Actor location: x = %d; y = %d; z = %d;\nSMC location: x = %d; y = %d; z = %d;"), initialPosition.X, initialPosition.Y, initialPosition.Z, pos.X, pos.Y, pos.Z);
+    
+    float half_brick = BlockWidth / 2.f;
+    for (int x = 0; x < XSizeBlocks; ++x)
+        for (int y = 0; y < YSizeBlocks; ++y)
+            if (getMaskValue(x, y))
             {
-                float f_offset = offset && j % 2 ? half_brick : 0;
+                int is_odd = odd_offset ? 1 : 0;
+                bool is_y_odd = (y + is_odd) % 2 ? true : false;
+                float x_offset = offset && is_y_odd ? half_brick : 0;
                 FTransform NewTransf;
-                NewTransf.SetLocation(FVector(BlockWidth * i + f_offset, BlockDepth, BlockHeight*j));
+                NewTransf.SetLocation(pos + FVector(BlockWidth * x + x_offset,
+                                              BlockDepth, BlockHeight * y));
                 SMComponent->AddInstance(NewTransf);
             }
-        }
-    }
 }
 
 void AProceduralWallTest::cutTheWall(){
     const double fx = XSizeBlocks / Frequency;
     const siv::PerlinNoise perlin(Seed);
-    for(int w_index = 0; w_index < XSizeBlocks; w_index++){
-        int result_height = YSizeBlocks * perlin.octaveNoise0_1(w_index / fx, Octaves);
-        for(int h_index = result_height; h_index < YSizeBlocks; h_index++)
-            setMaskValue(w_index, h_index, false);
-        UE_LOG(LogTemp, Warning, TEXT("height: %d"), result_height);
+    for(int x = 0; x < XSizeBlocks; x++)
+    {
+        int result_height = YSizeBlocks * perlin.octaveNoise0_1(x / fx, Octaves);
+        for(int y = result_height; y < YSizeBlocks; y++)
+            setMaskValue(x, y, false);
+	
+//        UE_LOG(LogTemp, Warning, TEXT("height: %d"), result_height);
     }
 }
 
