@@ -6,6 +6,8 @@ Intermediate/
 # Visual Studio 2015 user specific files
 .vs/
 
+# .DS_Store
+
 # Visual Studio 2015 database file
 *.VC.db
 
