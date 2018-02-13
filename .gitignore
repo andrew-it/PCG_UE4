@@ -9,6 +9,9 @@ Intermediate/
 # DS_Store
 .DS_Store
 
+# StarterContent
+StarterContent/
+
 # Visual Studio 2015 database file
 *.VC.db
 

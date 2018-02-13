@@ -64,9 +64,6 @@ void AProceduralWallTest::createHoles(int number){
 void AProceduralWallTest::spawnObject(){
     auto initialPosition = GetActorLocation();
     auto pos = SMComponent->GetComponentLocation();
-//    if(initialPosition.X != pos.X)
-        UE_LOG(LogTemp, Warning, TEXT("SHIT %d %d"), initialPosition.X, pos.X)
-    UE_LOG(LogTemp, Warning, TEXT("Actor location: x = %d; y = %d; z = %d;\nSMC location: x = %d; y = %d; z = %d;"), initialPosition.X, initialPosition.Y, initialPosition.Z, pos.X, pos.Y, pos.Z);
     
     float half_brick = BlockWidth / 2.f;
     for (int x = 0; x < XSizeBlocks; ++x)
@@ -76,10 +73,12 @@ void AProceduralWallTest::spawnObject(){
                 int is_odd = odd_offset ? 1 : 0;
                 bool is_y_odd = (y + is_odd) % 2 ? true : false;
                 float x_offset = offset && is_y_odd ? half_brick : 0;
-                FTransform NewTransf;
-                NewTransf.SetLocation(pos + FVector(BlockWidth * x + x_offset,
-                                              BlockDepth, BlockHeight * y));
-                SMComponent->AddInstance(NewTransf);
+                SMComponent->AddInstanceWorldSpace(
+                                                   FTransform(FVector(
+                                                                      BlockWidth * x + x_offset,
+                                                                      BlockDepth,
+                                                                      BlockHeight * y))
+                                                   );
             }
 }
 
@@ -92,8 +91,6 @@ void AProceduralWallTest::cutTheWall(){
         int result_height = YSizeBlocks * perlin.octaveNoise0_1(x / fx, Octaves);
         for(int y = result_height; y < YSizeBlocks; y++)
             setMaskValue(x, y, false);
-	
-//        UE_LOG(LogTemp, Warning, TEXT("height: %d"), result_height);
     }
 }
 
