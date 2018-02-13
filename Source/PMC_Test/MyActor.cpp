@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #include "MyActor.h"
 #include "ProceduralMeshComponent.h"
 
@@ -7,17 +5,16 @@
 // Sets default values
 AMyActor::AMyActor()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
     mesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("mesh"));
     RootComponent = mesh;
     
     TArray<FVector> vertices;
-    vertices.Add(FVector(0, 0, 0));                                // 0th vertice
-    vertices.Add(FVector(0, 100, 0));                           //   1th vertice
-    vertices.Add(FVector(0, 0, 100));                           //   2nd vertice
-    vertices.Add(FVector(0, 100, 100));                      //    3rd vertice
+    vertices.Add(FVector(0, 0, 0));     //  0th vertice
+    vertices.Add(FVector(0, 100, 0));   //  1th vertice
+    vertices.Add(FVector(0, 0, 100));   //  2nd vertice
+    vertices.Add(FVector(0, 100, 100)); //  3rd vertice
     
     TArray<int32> Triangle;
     

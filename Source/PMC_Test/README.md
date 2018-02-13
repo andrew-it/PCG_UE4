@@ -1,5 +1,17 @@
 # Procedural brick wall and a plane for UE4
 
+## Hierarchy
+*  ```Actor``` (Build in UE4)
+    *  ```AProceduralBlockBase```
+        *  ```AProceduralBlockBase2D```
+            *  ```AProceduralWallTest```
+            *  ```AProceduralWallWithDoor``` (In future)
+            *  ```AProceduralWallWithWindow``` (In future)
+        *  ```AProceduralBlockBase3D``` (In future)
+            *  ```AProceduralTerrain``` (In future)
+    *  ```ASimpleBuilding``` (In future)
+    *  ```AMyActor```
+
 ## The wall
 Class ```AProceduralWallTest```
 
