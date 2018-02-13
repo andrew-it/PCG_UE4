@@ -1,0 +1,3 @@
+/Users/andrejermak/Documents/Unreal Projects/PMC_Test/Source/PMC_Test/PMC_Test.Build.cs
+/Users/andrejermak/Documents/Unreal Projects/PMC_Test/Source/PMC_Test.Target.cs
+/Users/andrejermak/Documents/Unreal Projects/PMC_Test/Source/PMC_TestEditor.Target.cs
