@@ -12,30 +12,37 @@ class PMC_TEST_API AProceduralBlockBase : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
-	// Sets default values for this actor's properties
+public:
 	AProceduralBlockBase();
+    
+    int32 getZBlocksNumber() { return ZSizeBlocks; }
+    int32 getXBlocksNumber() { return XSizeBlocks; }
+    void setZBlocksNumber(int32 number) { ZSizeBlocks = number; }
+    void setXBlocksNumber(int32 number) { XSizeBlocks = number; }
+    
+    float getBlockWidth() { return BlockWidth; }
+    float getBlockDepth() { return BlockDepth; }
+    float getBlockHeight() { return BlockHeight; }
+    
+    float getZSize() { return ZSizeBlocks * BlockHeight; }
+    float getXSize() { return XSizeBlocks * BlockWidth; }
  
+    virtual void Tick(float DeltaTime) override;
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
     
     TArray<bool> mask_array;
     
     virtual void initMask(bool value);
     virtual void spawnObject() PURE_VIRTUAL(AProceduralBlockBase::spawnObject, ;);
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
     
-    // Dimensions size
+public:
+    // Blocks number
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
     int32 XSizeBlocks = 5;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
-    int32 YSizeBlocks = 10;
+    int32 ZSizeBlocks = 10;
 	
     // Blocks sizes (defaults for red brick)
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")

@@ -11,19 +11,14 @@ class PMC_TEST_API AProceduralBlockBase2D : public AProceduralBlockBase
 {
 	GENERATED_BODY()
 	
-public:	
-	// Sets default values for this actor's properties
+public:
 	AProceduralBlockBase2D();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-	
     virtual void setMaskValue(int32 row, int32 column, bool value);
     virtual bool getMaskValue(int32 row, int32 column);
-	
+
+public:
+	virtual void Tick(float DeltaTime) override;
 };

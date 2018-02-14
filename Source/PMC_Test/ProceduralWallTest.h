@@ -13,13 +13,11 @@ class PMC_TEST_API AProceduralWallTest : public AProceduralBlockBase2D
 {
 	GENERATED_BODY()
 	
-public:	
-	// Sets default values for this actor's properties
+public:
 	AProceduralWallTest();
     
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
     
     void createHole();
@@ -28,7 +26,6 @@ protected:
     void cutTheWall();
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 

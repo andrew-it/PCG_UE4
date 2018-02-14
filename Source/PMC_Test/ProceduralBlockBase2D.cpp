@@ -1,19 +1,16 @@
 #include "ProceduralBlockBase2D.h"
 
 
-// Sets default values
 AProceduralBlockBase2D::AProceduralBlockBase2D()
 {
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-// Called when the game starts or when spawned
 void AProceduralBlockBase2D::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
-// Called every frame
 void AProceduralBlockBase2D::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
