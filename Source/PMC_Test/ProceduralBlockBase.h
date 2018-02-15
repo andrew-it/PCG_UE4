@@ -10,10 +10,10 @@
 UCLASS()
 class PMC_TEST_API AProceduralBlockBase : public AActor
 {
-	GENERATED_BODY()
-	
+    GENERATED_BODY()
+    
 public:
-	AProceduralBlockBase();
+    AProceduralBlockBase();
     
     int32 getZBlocksNumber() { return ZSizeBlocks; }
     int32 getXBlocksNumber() { return XSizeBlocks; }
@@ -26,24 +26,25 @@ public:
     
     float getZSize() { return ZSizeBlocks * BlockHeight; }
     float getXSize() { return XSizeBlocks * BlockWidth; }
- 
+    
     virtual void Tick(float DeltaTime) override;
-
+    
 protected:
-	virtual void BeginPlay() override;
+    virtual void BeginPlay() override;
+    virtual void initMask(bool value);
     
     TArray<bool> mask_array;
     
-    virtual void initMask(bool value);
-    virtual void spawnObject() PURE_VIRTUAL(AProceduralBlockBase::spawnObject, ;);
-    
 public:
+    virtual void spawnObject() PURE_VIRTUAL(AProceduralBlockBase::spawnObject, ;);
+    virtual void Initialize();
+    
     // Blocks number
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
     int32 XSizeBlocks = 5;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
     int32 ZSizeBlocks = 10;
-	
+    
     // Blocks sizes (defaults for red brick)
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
     float BlockWidth = 25;

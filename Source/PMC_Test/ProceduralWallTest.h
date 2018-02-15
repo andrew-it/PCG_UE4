@@ -11,57 +11,32 @@
 UCLASS()
 class PMC_TEST_API AProceduralWallTest : public AProceduralBlockBase2D
 {
-	GENERATED_BODY()
-	
-public:
-	AProceduralWallTest();
+    GENERATED_BODY()
     
-
+public:
+    AProceduralWallTest();
+    
+    
 protected:
-	virtual void BeginPlay() override;
+    virtual void BeginPlay() override;
     
     void createHole();
     void createHoles(int number);
-    void spawnObject();
     void cutTheWall();
-
-public:	
-	virtual void Tick(float DeltaTime) override;
-
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
-    int holes_number = 1;
+    void spawnObject() override;
     
-    // Offset of bricks
+public:	
+    virtual void Tick(float DeltaTime) override;
+    void Initialize();
+    void setHolesNumber(int number) { holes_number = number; }
+    void setCutWall(bool value) { cut_wall = value; }
+    
+    
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
-    bool offset = true;
-
-    // Offset of odd rows of bricks
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
-    bool odd_offset = true;
+    int holes_number = 0;
+    
+    
     // Cut the wall
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
-    bool cut_wall = true;
+    bool cut_wall = false;
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

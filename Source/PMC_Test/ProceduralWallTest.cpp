@@ -9,10 +9,12 @@ void AProceduralWallTest::BeginPlay()
 {
     Super::BeginPlay();
     
-    createHoles(holes_number);
-    if(cut_wall) cutTheWall();
-
-    spawnObject();
+    static bool isInitialized = false;
+    if(!isInitialized)
+    {
+    Initialize();
+        isInitialized = true;
+    }
 }
 
 void AProceduralWallTest::Tick(float DeltaTime)
@@ -52,6 +54,7 @@ void AProceduralWallTest::createHoles(int number)
 
 void AProceduralWallTest::spawnObject()
 {
+    UE_LOG(LogTemp, Warning, TEXT("spawnObject"));
     float half_brick = BlockWidth / 2.f;
     for (int x = 0; x < XSizeBlocks; ++x)
         for (int y = 0; y < ZSizeBlocks; ++y)
@@ -80,24 +83,11 @@ void AProceduralWallTest::cutTheWall()
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void AProceduralWallTest::Initialize() {
+    Super::Initialize();
+    createHoles(holes_number);
+    if(cut_wall) cutTheWall();
+    
+    spawnObject();
+}
 
