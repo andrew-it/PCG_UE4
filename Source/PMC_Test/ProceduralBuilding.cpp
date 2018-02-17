@@ -11,7 +11,6 @@ void AProceduralBuilding::BeginPlay()
 {
     Super::BeginPlay();
     
-    static bool isInitialized = false;
     if(!isInitialized){
         Initialize();
         isInitialized = true;
@@ -38,38 +37,21 @@ void AProceduralBuilding::Initialize()
 
 void AProceduralBuilding::ConstructBuild()
 {
-    this->wall_1 = GetWorld()->SpawnActor<AProceduralWallTest>(AProceduralWallTest::StaticClass());
-    this->wall_2 = GetWorld()->SpawnActor<AProceduralWallTest>(AProceduralWallTest::StaticClass());
-    this->wall_3 = GetWorld()->SpawnActor<AProceduralWallTest>(AProceduralWallTest::StaticClass());
-    this->wall_4 = GetWorld()->SpawnActor<AProceduralWallTest>(AProceduralWallTest::StaticClass());
-    
-    this->wall_1->SetValues(Height, Width, StaticMesh, Material);
-    this->wall_2->SetValues(Height, Width, StaticMesh, Material);
-    this->wall_3->SetValues(Height, Width, StaticMesh, Material);
-    this->wall_4->SetValues(Height, Width, StaticMesh, Material);
-
-    this->wall_1->setOffset(true);
-    this->wall_2->setOffset(true);
-    this->wall_3->setOffset(true);
-    this->wall_4->setOffset(true);
-    
-    this->wall_1->SetActorRotation(this->wall_1->GetActorRotation() + FRotator(0, 45, 0));
-    this->wall_3->SetActorRotation(this->wall_3->GetActorRotation() + FRotator(0, 90, 0));
-    
+    wall_1 = CunstructWall(FVector(0, 0, 0), FRotator(0, 0, 0));
+    wall_2 = CunstructWall(FVector(0, 100, 0), FRotator(0, 90, 0));
+    wall_3 = CunstructWall(FVector(0, 100, 0), FRotator(0, 0, 0));
+    wall_4 = CunstructWall(FVector(100, 0, 0), FRotator(0, 90, 0));
     this->wall_1->setOffsetOdd(true);
     this->wall_3->setOffsetOdd(true);
-
-    this->wall_1->SetActorLocation(FVector(-100, -100, 0));
-    this->wall_2->SetActorLocation(FVector(200, 200, 0));
-    this->wall_3->SetActorLocation(FVector(400, 400, 0));
-    this->wall_4->SetActorLocation(FVector(600, 600, 0));
-
-    this->wall_1->Initialize();
-    this->wall_2->Initialize();
-    this->wall_3->Initialize();
-    this->wall_4->Initialize();
-
-
-    
-
 }
+
+AProceduralBlockBase2D* AProceduralBuilding::CunstructWall(FVector position, FRotator rotation) { 
+    AProceduralBlockBase2D *wall = GetWorld()->SpawnActor<AProceduralWallTest>(AProceduralWallTest::StaticClass());
+    wall->SetValues(Height, Width, StaticMesh, Material);
+    wall->setOffset(true);
+    wall->SetActorRotation(rotation);
+    wall->SetActorLocation(position);
+    wall->Initialize();
+    return wall;
+}
+

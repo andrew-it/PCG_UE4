@@ -25,9 +25,9 @@ bool AProceduralBlockBase2D::getMaskValue(int32 x, int32 y){
 }
 
 void AProceduralBlockBase2D::SetValues(int32 blocksHeight,
-                                        int32 blocksLength,
-                                        UStaticMesh *StaticMesh,
-                                        UMaterial *Material)
+                                       int32 blocksLength,
+                                       UStaticMesh *StaticMesh,
+                                       UMaterial *Material)
 {
     this->ZSizeBlocks = blocksHeight;
     this->ZSizeBlocks = blocksLength;

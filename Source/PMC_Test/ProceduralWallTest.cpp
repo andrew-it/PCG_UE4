@@ -9,7 +9,6 @@ void AProceduralWallTest::BeginPlay()
 {
     Super::BeginPlay();
     
-    static bool isInitialized = false;
     if(!isInitialized)
     {
     Initialize();

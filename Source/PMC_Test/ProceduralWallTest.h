@@ -31,7 +31,10 @@ public:
     void setHolesNumber(int number) { holes_number = number; }
     void setCutWall(bool value) { cut_wall = value; }
     
+private:
+    bool isInitialized = false;
     
+public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
     int holes_number = 0;
     

@@ -13,6 +13,7 @@ class PMC_TEST_API AProceduralBuilding : public AActor
     
 public:	
     AProceduralBuilding();
+    virtual AProceduralBlockBase2D* CunstructWall(FVector position, FRotator rotation);
     
 protected:
     virtual void BeginPlay() override;
@@ -29,6 +30,8 @@ protected:
     AProceduralBlockBase2D* wall_2;
     AProceduralBlockBase2D* wall_3;
     AProceduralBlockBase2D* wall_4;
+    
+    bool isInitialized = false;
     
     float BlockWidth = 0;
     float BlockDepth = 0;
