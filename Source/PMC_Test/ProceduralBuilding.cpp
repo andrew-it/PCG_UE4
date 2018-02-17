@@ -33,17 +33,17 @@ void AProceduralBuilding::Initialize()
 void AProceduralBuilding::ConstructBuild()
 {
     float width = (Width * BlockWidth);
-    wall_1 = CunstructWall(FVector(0, - BlockWidth + BlockDepth / 2, 0), FRotator(0, 0, 0));
-    wall_2 = CunstructWall(FVector(0, - BlockDepth / 2, 0), FRotator(0, 90, 0));
-    wall_3 = CunstructWall(FVector(- width + BlockWidth,
+    wall_1 = ConstructWall(FVector(0, - BlockWidth + BlockDepth / 2, 0), FRotator(0, 0, 0));
+    wall_2 = ConstructWall(FVector(0, - BlockDepth / 2, 0), FRotator(0, 90, 0));
+    wall_3 = ConstructWall(FVector(- width + BlockWidth,
                                    - width + BlockDepth / 2, 0), FRotator(0, 180, 0));
-    wall_4 = CunstructWall(FVector(- width + BlockWidth + 0,
+    wall_4 = ConstructWall(FVector(- width + BlockWidth + 0,
                                      width - BlockWidth - BlockDepth / 2, 0), FRotator(0, 270, 0));
 //    this->wall_1->setOffsetOdd(true);
 //    this->wall_4->setOffsetOdd(true);
 }
 
-AProceduralWallTest* AProceduralBuilding::CunstructWall(FVector location, FRotator rotation)
+AProceduralWallTest* AProceduralBuilding::ConstructWall(FVector location, FRotator rotation)
 {
     AProceduralWallTest* wall = GetWorld()->SpawnActor<AProceduralWallTest>(AProceduralWallTest::StaticClass()) ;
     

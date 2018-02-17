@@ -13,7 +13,7 @@ class PMC_TEST_API AProceduralBuilding : public AActor
     
 public:	
     AProceduralBuilding();
-    virtual AProceduralWallTest* CunstructWall(FVector position, FRotator rotation);
+    virtual AProceduralWallTest* ConstructWall(FVector position, FRotator rotation);
     
 protected:
     virtual void BeginPlay() override;
