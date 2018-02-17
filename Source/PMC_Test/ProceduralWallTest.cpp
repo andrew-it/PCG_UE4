@@ -11,7 +11,7 @@ void AProceduralWallTest::BeginPlay()
     
     if(!isInitialized)
     {
-    Initialize();
+        Initialize();
         isInitialized = true;
     }
 }
@@ -82,7 +82,8 @@ void AProceduralWallTest::cutTheWall()
     }
 }
 
-void AProceduralWallTest::Initialize() {
+void AProceduralWallTest::Initialize()
+{
     Super::Initialize();
     createHoles(holes_number);
     if(cut_wall) cutTheWall();
