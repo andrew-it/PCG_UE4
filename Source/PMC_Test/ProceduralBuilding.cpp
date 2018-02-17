@@ -4,17 +4,12 @@
 AProceduralBuilding::AProceduralBuilding()
 {
     PrimaryActorTick.bCanEverTick = true;
-    
 }
 
 void AProceduralBuilding::BeginPlay()
 {
     Super::BeginPlay();
-    
-    if(!isInitialized){
-        Initialize();
-        isInitialized = true;
-    }
+    Initialize();
 }
 
 void AProceduralBuilding::Tick(float DeltaTime)
@@ -37,25 +32,27 @@ void AProceduralBuilding::Initialize()
 
 void AProceduralBuilding::ConstructBuild()
 {
-    float width = Width * BlockWidth;
-    
-    wall_1 = CunstructWall(FVector(0, 0, 0), FRotator(0, 0, 0));
-    wall_2 = CunstructWall(FVector(0, 0, 0), FRotator(0, 90, 0));
-    wall_3 = CunstructWall(FVector(100, 100, 0), FRotator(0, 0, 0));
-    wall_4 = CunstructWall(FVector(100, 100, 0), FRotator(0, 90, 0));
+    float width = (Width * BlockWidth);
+    wall_1 = CunstructWall(FVector(0, - BlockWidth + BlockDepth / 2, 0), FRotator(0, 0, 0));
+    wall_2 = CunstructWall(FVector(0, - BlockDepth / 2, 0), FRotator(0, 90, 0));
+    wall_3 = CunstructWall(FVector(- width + BlockWidth,
+                                   - width + BlockDepth / 2, 0), FRotator(0, 180, 0));
+    wall_4 = CunstructWall(FVector(- width + BlockWidth + 0,
+                                     width - BlockWidth - BlockDepth / 2, 0), FRotator(0, 270, 0));
 //    this->wall_1->setOffsetOdd(true);
-//    this->wall_3->setOffsetOdd(true);
+//    this->wall_4->setOffsetOdd(true);
 }
 
-AProceduralWallTest* AProceduralBuilding::CunstructWall(FVector position, FRotator rotation)
+AProceduralWallTest* AProceduralBuilding::CunstructWall(FVector location, FRotator rotation)
 {
     AProceduralWallTest* wall = GetWorld()->SpawnActor<AProceduralWallTest>(AProceduralWallTest::StaticClass()) ;
     
-    wall->setOffset(true);
-    wall->SetActorRotation(rotation);
-    wall->SetActorLocation(position);
+    wall->setOffset(false);
+//    wall->SetActorLocation(location);
     wall->SetValues(Height, Width, StaticMesh, Material);
     wall->Initialize();
+    wall->spawnObject(location);
+    wall->SetActorRotation(rotation);
     return wall;
 }
 

@@ -8,12 +8,6 @@ AProceduralWallTest::AProceduralWallTest()
 void AProceduralWallTest::BeginPlay()
 {
     Super::BeginPlay();
-    
-    if(!isInitialized)
-    {
-        Initialize();
-        isInitialized = true;
-    }
 }
 
 void AProceduralWallTest::Tick(float DeltaTime)
@@ -51,7 +45,7 @@ void AProceduralWallTest::createHoles(int number)
         this->createHole();
 }
 
-void AProceduralWallTest::spawnObject()
+void AProceduralWallTest::spawnObject(FVector location)
 {
     UE_LOG(LogTemp, Warning, TEXT("spawnObject"));
     float half_brick = BlockWidth / 2.f;
@@ -62,9 +56,9 @@ void AProceduralWallTest::spawnObject()
                 int is_odd = odd_offset ? 1 : 0;
                 bool is_y_odd = (y + is_odd) % 2 ? true : false;
                 float x_offset = offset && is_y_odd ? half_brick : 0;
-                SMComponent->AddInstanceWorldSpace(FTransform(FVector(BlockWidth * x + x_offset,
-                                                                      BlockDepth,
-                                                                      BlockHeight * y))
+                SMComponent->AddInstanceWorldSpace(FTransform(location + FVector(BlockWidth * x + x_offset,
+                                                                                 BlockDepth,
+                                                                                 BlockHeight * y))
                                                    );
             }
 }
@@ -87,7 +81,4 @@ void AProceduralWallTest::Initialize()
     Super::Initialize();
     createHoles(holes_number);
     if(cut_wall) cutTheWall();
-    
-    spawnObject();
 }
-

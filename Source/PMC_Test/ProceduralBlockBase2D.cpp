@@ -32,7 +32,7 @@ void AProceduralBlockBase2D::SetValues(int32 blocksHeight,
                                        UMaterial *Material)
 {
     this->ZSizeBlocks = blocksHeight;
-    this->ZSizeBlocks = blocksLength;
+    this->XSizeBlocks = blocksLength;
     this->StaticMesh = StaticMesh;
     this->Material = Material;
 }

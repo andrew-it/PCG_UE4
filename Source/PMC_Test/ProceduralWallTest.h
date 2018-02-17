@@ -23,16 +23,14 @@ protected:
     void createHole();
     void createHoles(int number);
     void cutTheWall();
-    void spawnObject() override;
     
-public:	
+public:
+    void spawnObject(FVector location);
     virtual void Tick(float DeltaTime) override;
-    void Initialize();
     void setHolesNumber(int number) { holes_number = number; }
     void setCutWall(bool value) { cut_wall = value; }
+    void Initialize();
     
-private:
-    bool isInitialized = false;
     
 public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")

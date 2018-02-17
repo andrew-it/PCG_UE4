@@ -22,7 +22,7 @@ protected:
     
 public:
     virtual void Tick(float DeltaTime) override;
-    virtual void Initialize();
+    void Initialize();
     
 protected:
     
@@ -31,7 +31,6 @@ protected:
     AProceduralWallTest* wall_3;
     AProceduralWallTest* wall_4;
     
-    bool isInitialized = false;
     
     float BlockWidth = 0;
     float BlockDepth = 0;
