@@ -1,9 +1,9 @@
-#include "MyActor.h"
+#include "ProceduralPlane.h"
 #include "ProceduralMeshComponent.h"
 
 
 // Sets default values
-AMyActor::AMyActor()
+AProceduralPlane::AProceduralPlane()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -63,14 +63,14 @@ AMyActor::AMyActor()
 }
 
 // Called when the game starts or when spawned
-void AMyActor::BeginPlay()
+void AProceduralPlane::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void AMyActor::Tick(float DeltaTime)
+void AProceduralPlane::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 

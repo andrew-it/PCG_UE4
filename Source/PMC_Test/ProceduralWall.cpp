@@ -1,21 +1,21 @@
-#include "ProceduralWallTest.h"
+#include "ProceduralWall.h"
 
-AProceduralWallTest::AProceduralWallTest()
+AProceduralWall::AProceduralWall()
 {
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-void AProceduralWallTest::BeginPlay()
+void AProceduralWall::BeginPlay()
 {
     Super::BeginPlay();
 }
 
-void AProceduralWallTest::Tick(float DeltaTime)
+void AProceduralWall::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
 
-void AProceduralWallTest::createHole()
+void AProceduralWall::createHole()
 {
     int rand_y = FMath::RandRange(0, ZSizeBlocks-1);
     int rand_x = FMath::RandRange(0, XSizeBlocks - 1);
@@ -39,13 +39,13 @@ void AProceduralWallTest::createHole()
             }
 }
 
-void AProceduralWallTest::createHoles(int number)
+void AProceduralWall::createHoles(int number)
 {
     for(int i = 0; i < number; i++)
         this->createHole();
 }
 
-void AProceduralWallTest::spawnObject(FVector location)
+void AProceduralWall::spawnObject(FVector location)
 {
     UE_LOG(LogTemp, Warning, TEXT("spawnObject"));
     float half_brick = BlockWidth / 2.f;
@@ -63,7 +63,7 @@ void AProceduralWallTest::spawnObject(FVector location)
             }
 }
 
-void AProceduralWallTest::cutTheWall()
+void AProceduralWall::cutTheWall()
 {
     const double fx = XSizeBlocks / Frequency;
     const siv::PerlinNoise perlin(Seed);
@@ -76,7 +76,7 @@ void AProceduralWallTest::cutTheWall()
     }
 }
 
-void AProceduralWallTest::Initialize()
+void AProceduralWall::Initialize()
 {
     Super::Initialize();
     createHoles(holes_number);

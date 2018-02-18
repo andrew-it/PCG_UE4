@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ProceduralWallTest.h"
+#include "ProceduralWall.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -13,7 +13,7 @@ class PMC_TEST_API AProceduralBuilding : public AActor
     
 public:	
     AProceduralBuilding();
-    virtual AProceduralWallTest* ConstructWall(FVector position, FRotator rotation);
+    virtual AProceduralWall* ConstructWall(FVector position, FRotator rotation);
     
 protected:
     virtual void BeginPlay() override;
@@ -26,10 +26,10 @@ public:
     
 protected:
     
-    AProceduralWallTest* wall_1;
-    AProceduralWallTest* wall_2;
-    AProceduralWallTest* wall_3;
-    AProceduralWallTest* wall_4;
+    AProceduralWall* wall_1;
+    AProceduralWall* wall_2;
+    AProceduralWall* wall_3;
+    AProceduralWall* wall_4;
     
     
     float BlockWidth = 0;

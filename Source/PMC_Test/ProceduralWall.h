@@ -5,16 +5,16 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/InstancedStaticMeshComponent.h"
-#include "ProceduralWallTest.generated.h"
+#include "ProceduralWall.generated.h"
 
 
 UCLASS()
-class PMC_TEST_API AProceduralWallTest : public AProceduralBlockBase2D
+class PMC_TEST_API AProceduralWall : public AProceduralBlockBase2D
 {
     GENERATED_BODY()
     
 public:
-    AProceduralWallTest();
+    AProceduralWall();
     
     
 protected:

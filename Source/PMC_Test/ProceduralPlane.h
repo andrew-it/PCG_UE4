@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "MyActor.generated.h"
+#include "ProceduralPlane.generated.h"
 
 UCLASS()
-class PMC_TEST_API AMyActor : public AActor
+class PMC_TEST_API AProceduralPlane : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AMyActor();
+	AProceduralPlane();
 
 protected:
 	// Called when the game starts or when spawned

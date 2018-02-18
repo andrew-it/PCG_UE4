@@ -43,11 +43,12 @@ void AProceduralBuilding::ConstructBuild()
     this->wall_3->setOffsetOdd(true);
 }
 
-AProceduralWallTest* AProceduralBuilding::ConstructWall(FVector location, FRotator rotation)
+AProceduralWall* AProceduralBuilding::ConstructWall(FVector location, FRotator rotation)
 {
-    AProceduralWallTest* wall = GetWorld()->SpawnActor<AProceduralWallTest>(AProceduralWallTest::StaticClass()) ;
+    AProceduralWall* wall = GetWorld()->SpawnActor<AProceduralWall>(AProceduralWall::StaticClass()) ;
     
     wall->setOffset(true);
+    wall->setCutWall(true);
     wall->SetValues(Height, Width, StaticMesh, Material);
     wall->Initialize();
     wall->spawnObject(location);
