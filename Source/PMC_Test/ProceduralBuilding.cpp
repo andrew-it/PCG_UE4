@@ -33,24 +33,40 @@ void AProceduralBuilding::Initialize()
 void AProceduralBuilding::ConstructBuild()
 {
     float width = (Width * BlockWidth);
-    wall_1 = ConstructWall(FVector(0, - BlockWidth + BlockDepth / 2, 0), FRotator(0, 0, 0));
-    wall_2 = ConstructWall(FVector(0, - BlockDepth / 2, 0), FRotator(0, 90, 0));
+    wall_1 = ConstructWall(FVector(0, - BlockWidth + BlockDepth / 2, 0), FRotator(0, 0, 0), true);
+    wall_2 = ConstructWallWithDoor(FVector(0, - BlockDepth / 2, 0), FRotator(0, 90, 0), false);
     wall_3 = ConstructWall(FVector(- width + BlockWidth - BlockDepth,
-                                   - width - BlockDepth / 2, 0), FRotator(0, 180, 0));
+                                   - width - BlockDepth / 2, 0), FRotator(0, 180, 0), true);
     wall_4 = ConstructWall(FVector(- width + BlockWidth - BlockDepth,
-                                     width - BlockWidth / 2, 0), FRotator(0, 270, 0));
-    this->wall_1->setOffsetOdd(true);
-    this->wall_3->setOffsetOdd(true);
+                                     width - BlockWidth / 2, 0), FRotator(0, 270, 0), false);
 }
 
-AProceduralWall* AProceduralBuilding::ConstructWall(FVector location, FRotator rotation)
+AProceduralWall* AProceduralBuilding::ConstructWall(FVector location, FRotator rotation, bool isOddOffset)
 {
     AProceduralWall* wall = GetWorld()->SpawnActor<AProceduralWall>(AProceduralWall::StaticClass()) ;
     
     wall->setOffset(true);
+    wall->setOffsetOdd(isOddOffset);
     wall->setCutWall(true);
     wall->SetValues(Height, Width, StaticMesh, Material);
     wall->Initialize();
+    wall->spawnObject(location);
+    wall->SetActorRotation(rotation);
+    
+    return wall;
+}
+
+AProceduralWall* AProceduralBuilding::ConstructWallWithDoor(FVector location, FRotator rotation, bool isOddOffset)
+{
+    AProceduralWallWithDoor* wall = GetWorld()->SpawnActor<AProceduralWallWithDoor>(AProceduralWallWithDoor::StaticClass()) ;
+    
+    wall->setOffset(true);
+    wall->setOffsetOdd(isOddOffset);
+    wall->setCutWall(true);
+    wall->SetValues(Height, Width, StaticMesh, Material);
+    wall->Initialize();
+    wall->setDoor(Door);
+    wall->CreateDoorway();
     wall->spawnObject(location);
     wall->SetActorRotation(rotation);
     

@@ -20,8 +20,8 @@ public:
     
 protected:
     virtual void BeginPlay() override;
-    virtual void setMaskValue(int32 row, int32 column, bool value);
-    virtual bool getMaskValue(int32 row, int32 column);
+    virtual void setMaskValue(int32 x, int32 y, bool value);
+    virtual bool getMaskValue(int32 x, int32 y);
     
 public:
     virtual void Tick(float DeltaTime) override;

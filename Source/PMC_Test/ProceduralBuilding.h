@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ProceduralWall.h"
+#include "ProceduralWallWithDoor.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -13,7 +14,8 @@ class PMC_TEST_API AProceduralBuilding : public AActor
     
 public:	
     AProceduralBuilding();
-    virtual AProceduralWall* ConstructWall(FVector position, FRotator rotation);
+    virtual AProceduralWall* ConstructWall(FVector position, FRotator rotation, bool isOddOffset);
+    virtual AProceduralWall* ConstructWallWithDoor(FVector position, FRotator rotation, bool isOddOffset);
     
 protected:
     virtual void BeginPlay() override;
@@ -52,4 +54,9 @@ public:
     UStaticMesh* StaticMesh;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
     UMaterial* Material;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
+    UStaticMesh* Door;
+    
+    
 };
