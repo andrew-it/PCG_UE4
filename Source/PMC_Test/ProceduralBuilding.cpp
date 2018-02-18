@@ -32,13 +32,19 @@ void AProceduralBuilding::Initialize()
 
 void AProceduralBuilding::ConstructBuild()
 {
-    float width = (Width * BlockWidth);
+    float wallWidth = (Width * BlockWidth);
+    
     wall_1 = ConstructWall(FVector(0, - BlockWidth + BlockDepth / 2, 0), FRotator(0, 0, 0), true);
-    wall_2 = ConstructWallWithDoor(FVector(0, - BlockDepth / 2, 0), FRotator(0, 90, 0), false);
-    wall_3 = ConstructWall(FVector(- width + BlockWidth - BlockDepth,
-                                   - width - BlockDepth / 2, 0), FRotator(0, 180, 0), true);
-    wall_4 = ConstructWall(FVector(- width + BlockWidth - BlockDepth,
-                                     width - BlockWidth / 2, 0), FRotator(0, 270, 0), false);
+    
+    if(WithDoor)
+        wall_2 = ConstructWallWithDoor(FVector(0, - BlockDepth / 2, 0), FRotator(0, 90, 0), false);
+    else
+        wall_2 = ConstructWall(FVector(0, - BlockDepth / 2, 0), FRotator(0, 90, 0), false);
+    
+    wall_3 = ConstructWall(FVector(- wallWidth + BlockWidth - BlockDepth,
+                                   - wallWidth - BlockDepth / 2, 0), FRotator(0, 180, 0), true);
+    wall_4 = ConstructWall(FVector(- wallWidth + BlockWidth - BlockDepth,
+                                     wallWidth - BlockWidth / 2, 0), FRotator(0, 270, 0), false);
 }
 
 AProceduralWall* AProceduralBuilding::ConstructWall(FVector location, FRotator rotation, bool isOddOffset)
