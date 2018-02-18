@@ -47,11 +47,11 @@ public:
     
     // Blocks sizes (defaults for red brick)
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
-    float BlockWidth = 25;
+    float BlockWidth = 0;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
-    float BlockDepth = 12;
+    float BlockDepth = 0;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
-    float BlockHeight = 6.5;
+    float BlockHeight = 0;
     
     
     // For Perlin Noise

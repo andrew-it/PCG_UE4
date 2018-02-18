@@ -52,6 +52,7 @@ AProceduralWallTest* AProceduralBuilding::ConstructWall(FVector location, FRotat
     wall->Initialize();
     wall->spawnObject(location);
     wall->SetActorRotation(rotation);
+    
     return wall;
 }
 

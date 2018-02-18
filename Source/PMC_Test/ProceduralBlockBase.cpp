@@ -37,6 +37,11 @@ void AProceduralBlockBase::Initialize()
     if (StaticMesh)
     {
         SMComponent->SetStaticMesh(StaticMesh);
+   
+        auto boundingBoxSize = StaticMesh->GetBoundingBox().GetSize();
+        BlockWidth = boundingBoxSize.X;
+        BlockDepth = boundingBoxSize.Y;
+        BlockHeight = boundingBoxSize.Z;
     }
     if (Material)
     {
