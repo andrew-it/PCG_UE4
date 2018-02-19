@@ -4,16 +4,15 @@
 *  ```Actor``` (Build in UE4)
     *  ```AProceduralBlockBase```
         *  ```AProceduralBlockBase2D```
-            *  ```AProceduralWallTest```
-            *  ```AProceduralWallWithDoor``` (In future)
-            *  ```AProceduralWallWithWindow``` (In future)
+            *  ```AProceduralWall```
+                *  ```AProceduralWallWithObject```
         *  ```AProceduralBlockBase3D``` (In future)
             *  ```AProceduralTerrain``` (In future)
-    *  ```ASimpleBuilding``` (In future)
-    *  ```AMyActor```
+    *  ```ASimpleBuilding```
+    *  ```AProceduralPlane```
 
-## The wall
-Class ```AProceduralWallTest```
+## The procedural wall
+Class ```AProceduralWall```
 
 Features:
 * Could be "destroyed" using 1D Perlin Noise or/and random circles cutting
@@ -23,7 +22,13 @@ Features:
 * Optional offset by a half of brick length (in brickwork style)
 
 
-## The plane
-Class ```AMyActor```
+Class ```AProceduralWallWithObject```
 
-Just plain, constructed by four triangles: per two on side. (Code from some tutorual in the internet)
+Features:
+* Create a hole for build in the wall object like window or door
+* Uses block and object sizes for calculating a hole size
+
+## The plane
+Class ```AProceduralPlane```
+
+Just plain, constructed by four triangles: per two on a side. (Code from some tutorual in the internet)
