@@ -14,8 +14,9 @@ public:
     AProceduralWallWithObject();
     void setObject(UStaticMesh* Object) { this->Object = Object; }
     void setRotation(FRotator rotator) { this->SMCObject->SetWorldRotation(rotator); }
-    void setWindowSillHeight(int32 heightInBlocks) { this->windowSillHeight = heightInBlocks; }
-	void CreateObjectway();
+    void setObjectSillHeight(int32 heightInBlocks) { this->objectSillHeight = heightInBlocks; }
+	void CreateObjectway(FVector location);
+    virtual void spawnObject(FVector location);
 
 protected:
     int32 ObjectHeightInBlocks = 0;
@@ -25,7 +26,7 @@ public:
     UStaticMesh* Object;
     
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
-    int32 windowSillHeight = 0;
+    int32 objectSillHeight = 0;
     
     UInstancedStaticMeshComponent* SMCObject;
 };

@@ -47,7 +47,11 @@ void AProceduralWall::createHoles(int number)
 
 void AProceduralWall::spawnObject(FVector location)
 {
-    UE_LOG(LogTemp, Warning, TEXT("spawnObject"));
+//    UE_LOG(LogTemp, Warning, TEXT("spawnObject"));
+    UE_LOG(LogTemp, Warning, TEXT("X: %f, Y: %f, Z: %f"),
+           location.X,
+           location.Y,
+           location.Z);
     float half_brick = BlockWidth / 2.f;
     for (int x = 0; x < XSizeBlocks; ++x)
         for (int y = 0; y < ZSizeBlocks; ++y)

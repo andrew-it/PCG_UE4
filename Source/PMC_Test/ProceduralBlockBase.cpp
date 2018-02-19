@@ -1,11 +1,13 @@
 #include "ProceduralBlockBase.h"
-
+#include "DateTime.h"
 
 AProceduralBlockBase::AProceduralBlockBase()
 {
     PrimaryActorTick.bCanEverTick = true;
     SMComponent = CreateDefaultSubobject < UInstancedStaticMeshComponent >(TEXT("block"));
     RootComponent = SMComponent;
+    auto datetime = new FDateTime();
+    Seed = datetime->GetMillisecond();
 }
 
 void AProceduralBlockBase::BeginPlay()

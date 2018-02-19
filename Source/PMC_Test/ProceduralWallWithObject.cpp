@@ -5,7 +5,13 @@ AProceduralWallWithObject::AProceduralWallWithObject()
     SMCObject = CreateDefaultSubobject < UInstancedStaticMeshComponent >(TEXT("Object"));
 }
 
-void AProceduralWallWithObject::CreateObjectway()
+void AProceduralWallWithObject::spawnObject(FVector location)
+{
+    CreateObjectway(location);
+    Super::spawnObject(location);
+}
+
+void AProceduralWallWithObject::CreateObjectway(FVector location)
 {
     if (Object)
     {
@@ -26,8 +32,9 @@ void AProceduralWallWithObject::CreateObjectway()
         
         int xObjectOffset = FMath::RandRange(1, XSizeBlocks - ObjectWidthInBlocks - 1);
         int yObjectOffset = 0;
-        if(windowSillHeight + ObjectHeightInBlocks < ZSizeBlocks)
-            yObjectOffset = windowSillHeight;
+        
+        if(objectSillHeight + ObjectHeightInBlocks < ZSizeBlocks)
+            yObjectOffset = objectSillHeight;
         else
             UE_LOG(LogTemp, Error, TEXT("SillHeight+windowHeight IS BIGGER THAN WALL HEIGHT"));
         
@@ -40,14 +47,16 @@ void AProceduralWallWithObject::CreateObjectway()
             for(int y = yObjectOffset; y < ObjectHeightInBlocks + yObjectOffset; y++)
                 setMaskValue(x, y, false);
         }
+        SMCObject->SetWorldLocation(SMComponent->GetComponentLocation());
+        SMCObject->AddInstanceWorldSpace(FTransform(location + FVector(0, xObjectOffset * BlockWidth, 0)));
         
-
-        UE_LOG(LogTemp, Warning, TEXT("%d %d"), yObjectOffset, windowSillHeight);
-        SMCObject->AddInstanceWorldSpace(FTransform(FVector(BlockDepth,
-                                                          - 20 - xObjectOffset * BlockWidth - BlockWidth / 2,
-                                                          - BlockHeight * 2)));
-        SMCObject->SetWorldRotation(FRotator(0, 180, 0));
+        UE_LOG(LogTemp, Error, TEXT("X: %f, Y: %f, Z: %f"),
+               SMCObject->GetComponentLocation().X,
+               SMCObject->GetComponentLocation().Y,
+               SMCObject->GetComponentLocation().Z);
         
+//        UE_LOG(LogTemp, Warning, TEXT("%f"), xObjectOffset * BlockWidth);
+//        UE_LOG(LogTemp, Error, TEXT("X: %f, Y: %f, Z: %f"), location.X, location.Y + xObjectOffset * BlockWidth, location.Z);
     } else {
         UE_LOG(LogTemp, Error, TEXT("Object IS NULL"));
     }

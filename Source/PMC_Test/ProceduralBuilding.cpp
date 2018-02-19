@@ -79,8 +79,7 @@ AProceduralWall* AProceduralBuilding::ConstructWallWithObject(FVector location, 
     wall->SetValues(Height, Width, StaticMesh, Material);
     wall->Initialize();
     wall->setObject(Object);
-    wall->setWindowSillHeight(sillHeight);
-    wall->CreateObjectway();
+    wall->setObjectSillHeight(sillHeight);
     wall->spawnObject(location);
     wall->SetActorRotation(rotation);
     

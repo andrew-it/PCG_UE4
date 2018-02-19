@@ -25,7 +25,7 @@ protected:
     void cutTheWall();
     
 public:
-    void spawnObject(FVector location);
+    virtual void spawnObject(FVector location);
     virtual void Tick(float DeltaTime) override;
     void setHolesNumber(int number) { holes_number = number; }
     void setCutWall(bool value) { cut_wall = value; }

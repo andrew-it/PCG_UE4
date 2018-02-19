@@ -58,9 +58,9 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Perlin Noise")
     int32 Seed = 0;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Perlin Noise")
-    float Octaves = 8;
+    float Octaves = 1;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Perlin Noise")
-    float Frequency = 8;
+    float Frequency = 3;
     
     // Model and Material
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
