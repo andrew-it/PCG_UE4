@@ -25,7 +25,7 @@ protected:
     void cutTheWall();
     
 public:
-    virtual void spawnObject(FVector location);
+    virtual void spawnObject();
     virtual void Tick(float DeltaTime) override;
     void setHolesNumber(int number) { holes_number = number; }
     void setCutWall(bool value) { cut_wall = value; }
@@ -35,7 +35,6 @@ public:
 public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
     int holes_number = 0;
-    
     
     // Cut the wall
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")

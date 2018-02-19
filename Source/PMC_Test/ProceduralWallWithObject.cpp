@@ -5,13 +5,13 @@ AProceduralWallWithObject::AProceduralWallWithObject()
     SMCObject = CreateDefaultSubobject < UInstancedStaticMeshComponent >(TEXT("Object"));
 }
 
-void AProceduralWallWithObject::spawnObject(FVector location)
+void AProceduralWallWithObject::spawnObject()
 {
-    CreateObjectway(location);
-    Super::spawnObject(location);
+    CreateObjectway();
+    Super::spawnObject();
 }
 
-void AProceduralWallWithObject::CreateObjectway(FVector location)
+void AProceduralWallWithObject::CreateObjectway()
 {
     if (Object)
     {
@@ -47,16 +47,14 @@ void AProceduralWallWithObject::CreateObjectway(FVector location)
             for(int y = yObjectOffset; y < ObjectHeightInBlocks + yObjectOffset; y++)
                 setMaskValue(x, y, false);
         }
-        SMCObject->SetWorldLocation(SMComponent->GetComponentLocation());
-        SMCObject->AddInstanceWorldSpace(FTransform(location + FVector(0, xObjectOffset * BlockWidth, 0)));
         
-        UE_LOG(LogTemp, Error, TEXT("X: %f, Y: %f, Z: %f"),
-               SMCObject->GetComponentLocation().X,
-               SMCObject->GetComponentLocation().Y,
-               SMCObject->GetComponentLocation().Z);
+        SMCObject->AddInstance(FTransform(FVector(0, xObjectOffset * BlockWidth, 0)));
         
-//        UE_LOG(LogTemp, Warning, TEXT("%f"), xObjectOffset * BlockWidth);
-//        UE_LOG(LogTemp, Error, TEXT("X: %f, Y: %f, Z: %f"), location.X, location.Y + xObjectOffset * BlockWidth, location.Z);
+//        UE_LOG(LogTemp, Error, TEXT("X: %f, Y: %f, Z: %f"),
+//               SMCObject->GetComponentLocation().X,
+//               SMCObject->GetComponentLocation().Y,
+//               SMCObject->GetComponentLocation().Z);
+        
     } else {
         UE_LOG(LogTemp, Error, TEXT("Object IS NULL"));
     }

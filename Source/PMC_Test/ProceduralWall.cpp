@@ -45,13 +45,8 @@ void AProceduralWall::createHoles(int number)
         this->createHole();
 }
 
-void AProceduralWall::spawnObject(FVector location)
+void AProceduralWall::spawnObject()
 {
-//    UE_LOG(LogTemp, Warning, TEXT("spawnObject"));
-    UE_LOG(LogTemp, Warning, TEXT("X: %f, Y: %f, Z: %f"),
-           location.X,
-           location.Y,
-           location.Z);
     float half_brick = BlockWidth / 2.f;
     for (int x = 0; x < XSizeBlocks; ++x)
         for (int y = 0; y < ZSizeBlocks; ++y)
@@ -60,9 +55,9 @@ void AProceduralWall::spawnObject(FVector location)
                 int is_odd = odd_offset ? 1 : 0;
                 bool is_y_odd = (y + is_odd) % 2 ? true : false;
                 float x_offset = offset && is_y_odd ? half_brick : 0;
-                SMComponent->AddInstanceWorldSpace(FTransform(location + FVector(BlockWidth * x + x_offset,
-                                                                                 BlockDepth,
-                                                                                 BlockHeight * y))
+                SMComponent->AddInstance(FTransform(FVector(BlockWidth * x + x_offset,
+                                                            BlockDepth,
+                                                            BlockHeight * y))
                                                    );
             }
 }

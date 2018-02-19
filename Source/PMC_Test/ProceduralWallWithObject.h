@@ -15,8 +15,8 @@ public:
     void setObject(UStaticMesh* Object) { this->Object = Object; }
     void setRotation(FRotator rotator) { this->SMCObject->SetWorldRotation(rotator); }
     void setObjectSillHeight(int32 heightInBlocks) { this->objectSillHeight = heightInBlocks; }
-	void CreateObjectway(FVector location);
-    virtual void spawnObject(FVector location);
+	void CreateObjectway();
+    virtual void spawnObject();
 
 protected:
     int32 ObjectHeightInBlocks = 0;

@@ -36,7 +36,7 @@ protected:
     TArray<bool> mask_array;
     
 public:
-    virtual void spawnObject(FVector location) PURE_VIRTUAL(AProceduralBlockBase::spawnObject, ;);
+    virtual void spawnObject() PURE_VIRTUAL(AProceduralBlockBase::spawnObject, ;);
     virtual void Initialize();
     
     // Blocks number
