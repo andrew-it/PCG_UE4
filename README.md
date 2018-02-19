@@ -8,7 +8,7 @@
                 *  ```AProceduralWallWithObject```
         *  ```AProceduralBlockBase3D``` (In future)
             *  ```AProceduralTerrain``` (In future)
-    *  ```ASimpleBuilding```
+    *  ```AProceduralBuilding```
     *  ```AProceduralPlane```
 
 ## The procedural wall
