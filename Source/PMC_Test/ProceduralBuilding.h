@@ -14,13 +14,11 @@ class PMC_TEST_API AProceduralBuilding : public AActor
     
 public:	
     AProceduralBuilding();
-    virtual AProceduralWall* ConstructWall(FVector position, FRotator rotation, bool isOddOffset);
-    virtual AProceduralWall* ConstructWallWithObject(FVector position, FRotator rotation, bool isOddOffset,
-                                                     UStaticMesh* Object, int32 sillHeight);
+    virtual AProceduralWall* ConstructWall(FVector position, FRotator rotation, bool isOddOffset,
+                                           UStaticMesh* Object = NULL, int32 sillHeight = 0);
     
 protected:
     virtual void BeginPlay() override;
-    
     virtual void ConstructBuild();
     
 public:
@@ -28,12 +26,8 @@ public:
     void Initialize();
     
 protected:
-    
-    AProceduralWall* wall_1;
-    AProceduralWall* wall_2;
-    AProceduralWall* wall_3;
-    AProceduralWall* wall_4;
-    
+    const int numberOfWalls = 4;
+    TArray<AProceduralWall*> walls;
     
     float BlockWidth = 0;
     float BlockDepth = 0;
@@ -41,11 +35,11 @@ protected:
     
 public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
-    bool WithWindow = false;
+    int32 WindowsNumber = 1;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
     int32 windowSillHeight = 10;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
-    bool WithDoor = false;
+    int32 DoorsNumber = 1;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
     int32 doorSillHeight = 1;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
