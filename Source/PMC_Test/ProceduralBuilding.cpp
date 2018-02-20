@@ -53,7 +53,7 @@ void AProceduralBuilding::ConstructBuild()
                            FRotator(0, 180, 0), true);
     /// wall 4
     if(WithWindow)
-        wall_4 = ConstructWallWithObject(FVector(wallWidth - BlockDepth - BlockDepth / 2,
+        wall_4 = ConstructWallWithObject(FVector(wallWidth - BlockWidth / 2,
                                                  wallWidth + BlockDepth / 2,
                                                  0),
                                          FRotator(0, 270, 0), true, Window, windowSillHeight);
