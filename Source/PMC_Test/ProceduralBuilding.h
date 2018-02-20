@@ -49,6 +49,8 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
     int32 doorSillHeight = 1;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
+    bool Destroyed = false;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
     int32 Width = 100;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
     int32 Depth = 70;
