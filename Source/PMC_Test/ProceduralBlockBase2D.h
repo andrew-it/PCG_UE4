@@ -16,7 +16,7 @@ public:
     
     virtual void Initialize();
     virtual void SetValues(int32 blocksHeight, int32 blocksLength,
-                            UStaticMesh* StaticMesh, UMaterial* Material);
+                            UStaticMesh* StaticMesh, UMaterialInstance* Material);
     
 protected:
     virtual void BeginPlay() override;
