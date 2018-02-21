@@ -30,7 +30,7 @@ void AProceduralWallWithObject::CreateObjectway()
             return;
         }
         
-        int xObjectOffset = FMath::RandRange(1, XSizeBlocks - ObjectWidthInBlocks - 1);
+        int xObjectOffset = 10;//FMath::RandRange(1, XSizeBlocks - ObjectWidthInBlocks - 1);
         int yObjectOffset = 0;
         
         if(objectSillHeight + ObjectHeightInBlocks < ZSizeBlocks)
@@ -48,13 +48,22 @@ void AProceduralWallWithObject::CreateObjectway()
                 setMaskValue(x, y, false);
         }
         
-        SMCObject->AddInstance(FTransform(FVector(0, xObjectOffset * BlockWidth, 0)));
+        auto _loc = GetActorLocation();
+        auto _rot = GetActorRotation();
         
-//        UE_LOG(LogTemp, Error, TEXT("X: %f, Y: %f, Z: %f"),
-//               SMCObject->GetComponentLocation().X,
-//               SMCObject->GetComponentLocation().Y,
-//               SMCObject->GetComponentLocation().Z);
+        auto _objectPlace = (xObjectOffset + ObjectWidthInBlocks) * BlockWidth;
         
+        auto _x = 0;
+        auto _y = _objectPlace;
+        if((int)(_rot.Yaw) % 180 == 0)
+        {
+            _x = _objectPlace;
+            _y = 0;
+        }
+        
+        SMCObject->AddInstance(FTransform(_rot + FRotator(0, 90, 0),
+                                          _loc + FVector(_x, _y, objectSillHeight * BlockHeight))
+                               );
     } else {
         UE_LOG(LogTemp, Error, TEXT("Object IS NULL"));
     }
