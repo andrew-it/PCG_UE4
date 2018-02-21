@@ -31,20 +31,20 @@ void AProceduralWallWithObject::CreateObjectway()
         }
         
         int xObjectOffset = 10;//FMath::RandRange(1, XSizeBlocks - ObjectWidthInBlocks - 1);
-        int yObjectOffset = 0;
+        int zObjectOffset = 0;
         
         if(objectSillHeight + ObjectHeightInBlocks < ZSizeBlocks)
-            yObjectOffset = objectSillHeight;
+            zObjectOffset = objectSillHeight;
         else
             UE_LOG(LogTemp, Error, TEXT("SillHeight+windowHeight IS BIGGER THAN WALL HEIGHT"));
         
         
         for(int x = xObjectOffset; x < ObjectWidthInBlocks + xObjectOffset; x++)
         {
-            for(int y = 0; y < yObjectOffset; y++)
+            for(int y = 0; y < zObjectOffset; y++)
                 setMaskValue(x, y, true);
             
-            for(int y = yObjectOffset; y < ObjectHeightInBlocks + yObjectOffset; y++)
+            for(int y = zObjectOffset; y < ObjectHeightInBlocks + zObjectOffset; y++)
                 setMaskValue(x, y, false);
         }
         
@@ -64,6 +64,8 @@ void AProceduralWallWithObject::CreateObjectway()
         SMCObject->AddInstance(FTransform(_rot + FRotator(0, 90, 0),
                                           _loc + FVector(_x, _y, objectSillHeight * BlockHeight))
                                );
+        UE_LOG(LogTemp, Warning, TEXT("x: %f, y: %f, obj_place: %f, objectInBlocks %d"),
+               _loc.X +  _x, _loc.Y + _y, _objectPlace, ObjectWidthInBlocks);
     } else {
         UE_LOG(LogTemp, Error, TEXT("Object IS NULL"));
     }
