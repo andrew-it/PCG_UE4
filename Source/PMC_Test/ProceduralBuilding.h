@@ -15,7 +15,7 @@ class PMC_TEST_API AProceduralBuilding : public AActor
 public:	
     AProceduralBuilding();
     virtual AProceduralWall* ConstructWall(FVector position, FRotator rotation, bool isOddOffset,
-                                           UStaticMesh* Object = NULL, int32 sillHeight = 0);
+                                           int32 WallLength, UStaticMesh* Object = NULL, int32 sillHeight = 0);
     
 protected:
     virtual void BeginPlay() override;

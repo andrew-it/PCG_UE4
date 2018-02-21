@@ -55,10 +55,10 @@ void AProceduralWall::spawnObject()
                 int is_odd = odd_offset ? 1 : 0;
                 bool is_y_odd = (y + is_odd) % 2 ? true : false;
                 float x_offset = offset && is_y_odd ? half_brick : 0;
-                SMComponent->AddInstance(FTransform(FVector(BlockWidth * x + x_offset,
-                                                            BlockDepth,
+                SMComponent->AddInstance(FTransform(FVector(BlockWidth * x + x_offset + BlockDepth / 2,
+                                                            0,
                                                             BlockHeight * y))
-                                                   );
+                                         );
             }
 }
 

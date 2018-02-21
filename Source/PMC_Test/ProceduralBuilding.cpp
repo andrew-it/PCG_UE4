@@ -34,60 +34,38 @@ void AProceduralBuilding::Initialize()
 void AProceduralBuilding::ConstructBuild()
 {
     float wallWidth = (Width * BlockWidth);
+    float wallDepth = (Depth * BlockWidth);
     
     auto _doorsNumber = DoorsNumber;
     auto _windowsNumber = WindowsNumber;
-    int _sign[4] = {1, -1, 1, -1};
+    int _w[4] = {0, 1, 1, 0};
+    int _d[4] = {0, 0, 1, 1};
     
-    for(int i = 0; i < numberOfWalls; i++) {
-        auto _rotation = FRotator(0, i * 90, 0);
+    for(int i = 0; i < numberOfWalls; i++)
+    {
         auto _isOdd = i % 2;
-        auto _position = FVector(0,
-//                                 !_isOdd * wallWidth * _sign[i],
-                                 _isOdd * wallWidth * _sign[i],
+        auto _rotation = FRotator(0, i * 90, 0);
+        auto _position = FVector(wallWidth * _w[i],
+                                 wallDepth * _d[i],
                                  0);
+        auto _length = _isOdd ? Depth : Width;
+        auto _sillHeight = 0;
+        UStaticMesh* _object = NULL;
         
         if (_doorsNumber-- > 0) {
-            walls[i] = ConstructWall(_position, _rotation, _isOdd, Door, doorSillHeight);
+            _sillHeight = doorSillHeight;
+            _object = Door;
         } else if (_windowsNumber-- > 0) {
-            walls[i] = ConstructWall(_position, _rotation, _isOdd, Window, doorSillHeight);
-        } else {
-            walls[i] = ConstructWall(_position, _rotation, _isOdd);
+            _sillHeight = windowSillHeight;
+            _object = Window;
         }
+        
+        walls[i] = ConstructWall(_position, _rotation, true, _length, _object, _sillHeight);
     }
-    
-//    /// wall 1
-//    walls[0] = ConstructWall(FVector(0, 0, 0), FRotator(0, 0, 0), true);
-//
-//    /// wall 2
-//    if(WithDoor)
-//        walls[1] = ConstructWallWithObject(FVector(BlockDepth / 2,
-//                                                 BlockWidth - BlockDepth / 2,
-//                                                 0),
-//                                         FRotator(0, 90, 0), false, Door, doorSillHeight);
-//    else
-//        walls[1] = ConstructWall(FVector(0, 0, 0), FRotator(0, 90, 0), false);
-//
-//    /// wall 3
-//    walls[2] = ConstructWall(FVector(wallWidth - BlockDepth,
-//                                   wallWidth + BlockWidth,
-//                                   0),
-//                           FRotator(0, 180, 0), true);
-//    /// wall 4
-//    if(WithWindow)
-//        walls[3] = ConstructWallWithObject(FVector(wallWidth - BlockWidth / 2,
-//                                                 wallWidth + BlockDepth / 2,
-//                                                 0),
-//                                         FRotator(0, 270, 0), true, Window, windowSillHeight);
-//    else
-//        walls[3] = ConstructWall(FVector(wallWidth - BlockWidth / 2,
-//                                       wallWidth + BlockDepth / 2,
-//                                       0),
-//                               FRotator(0, 270, 0), false);
 }
 
 AProceduralWall* AProceduralBuilding::ConstructWall(FVector location, FRotator rotation, bool isOddOffset,
-                                                              UStaticMesh* Object, int32 sillHeight)
+                                                    int32 WallLength, UStaticMesh* Object, int32 sillHeight)
 {
     AProceduralWall* wall;
     if(Object)
@@ -102,7 +80,7 @@ AProceduralWall* AProceduralBuilding::ConstructWall(FVector location, FRotator r
     wall->setOffset(true);
     wall->setOffsetOdd(isOddOffset);
     wall->setCutWall(Destroyed);
-    wall->SetValues(Height, Width, StaticMesh, Material);
+    wall->SetValues(Height, WallLength, StaticMesh, Material);
     wall->Initialize();
     wall->SetActorLocation(location);
     wall->SetActorRotation(rotation);
