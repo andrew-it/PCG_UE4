@@ -15,16 +15,13 @@ class PMC_TEST_API AProceduralBlockBase : public AActor
 public:
     AProceduralBlockBase();
     
-    int32 getZBlocksNumber() { return ZSizeBlocks; }
     int32 getXBlocksNumber() { return XSizeBlocks; }
-    void setZBlocksNumber(int32 number) { ZSizeBlocks = number; }
     void setXBlocksNumber(int32 number) { XSizeBlocks = number; }
     
     float getBlockWidth() { return BlockWidth; }
     float getBlockDepth() { return BlockDepth; }
     float getBlockHeight() { return BlockHeight; }
     
-    float getZSize() { return ZSizeBlocks * BlockHeight; }
     float getXSize() { return XSizeBlocks * BlockWidth; }
     
     virtual void Tick(float DeltaTime) override;
@@ -42,8 +39,7 @@ public:
     // Blocks number
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
     int32 XSizeBlocks = 5;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
-    int32 ZSizeBlocks = 10;
+    
     
     // Blocks sizes (defaults for red brick)
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
