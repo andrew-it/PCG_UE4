@@ -26,10 +26,15 @@ bool AProceduralBlockBase2D::getMaskValue(int32 x, int32 y)
     return mask_array[XSizeBlocks * y + x];
 }
 
+void AProceduralBlockBase2D::initMask(bool value)
+{
+    mask_array.Init(value, XSizeBlocks * ZSizeBlocks);
+}
+
 void AProceduralBlockBase2D::SetValues(int32 blocksHeight,
                                        int32 blocksLength,
                                        UStaticMesh *StaticMesh,
-                                       UMaterial *Material)
+                                       UMaterialInstance *Material)
 {
     this->ZSizeBlocks = blocksHeight;
     this->XSizeBlocks = blocksLength;

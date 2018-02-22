@@ -29,7 +29,7 @@ void AProceduralBlockBase::Tick(float DeltaTime)
 
 void AProceduralBlockBase::initMask(bool value)
 {
-    mask_array.Init(value, XSizeBlocks * ZSizeBlocks);
+    mask_array.Init(value, XSizeBlocks);
 }
 
 void AProceduralBlockBase::Initialize()

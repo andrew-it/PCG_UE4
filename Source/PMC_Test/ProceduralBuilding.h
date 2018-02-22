@@ -54,7 +54,7 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
     UStaticMesh* StaticMesh;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
-    UMaterial* Material;
+    UMaterialInstance* Material;
     
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
     UStaticMesh* Door;
