@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -16,6 +14,8 @@ class PMC_TEST_API ATerrainChunk : public AProceduralBlockBase3D
 
 public:
 	virtual void spawnObject();
+	virtual void Initialize();
 	
-	
+protected:
+	virtual void BeginPlay() override;
 };

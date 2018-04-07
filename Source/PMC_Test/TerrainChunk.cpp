@@ -9,10 +9,26 @@ void ATerrainChunk::spawnObject()
 			for (int z = 0; z < ZSizeBlocks; ++z)
 				if(getMaskValue(x, y, z))
 				{
-					SMComponent->AddInstance(FTransform(FVector(
+					FVector current_location = this->GetActorLocation();
+
+					
+					
+					SMComponent->AddInstance(FTransform(current_location + FVector(
 						BlockWidth * x,
 						BlockDepth * y,
 						BlockHeight * z
 					)));
 				}
+}
+
+void ATerrainChunk::Initialize()
+{
+	Super::Initialize();
+}
+
+void ATerrainChunk::BeginPlay()
+{
+	Super::BeginPlay();
+	Initialize();
+	spawnObject();
 }

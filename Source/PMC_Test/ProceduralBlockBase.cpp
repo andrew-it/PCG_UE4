@@ -44,9 +44,18 @@ void AProceduralBlockBase::Initialize()
         BlockWidth = boundingBoxSize.X;
         BlockDepth = boundingBoxSize.Y;
         BlockHeight = boundingBoxSize.Z;
+
+		UE_LOG(LogTemp, Log, TEXT("StaticMesh was setted"))
     }
+	else
+		UE_LOG(LogTemp, Error, TEXT("StaticMesh is NULL"))
+
     if (Material)
     {
         SMComponent->SetMaterial(0, Material);
+
+		UE_LOG(LogTemp, Log, TEXT("Material was setted"))
     }
+	else
+		UE_LOG(LogTemp, Warning, TEXT("Material is NULL"))
 }
