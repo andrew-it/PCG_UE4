@@ -41,7 +41,7 @@ public:
     int32 XSizeBlocks = 5;
     
     
-    // Blocks sizes (defaults for red brick)
+    // Blocks sizes
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
     float BlockWidth = 0;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
