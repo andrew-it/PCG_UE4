@@ -13,8 +13,9 @@ UCLASS()
 class PMC_TEST_API ATerrainChunk : public AProceduralBlockBase3D
 {
 	GENERATED_BODY()
-	
-	
+
+public:
+	virtual void spawnObject();
 	
 	
 };

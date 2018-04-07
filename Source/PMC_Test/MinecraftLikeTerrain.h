@@ -4,8 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "MinecraftLikeTerrain.generated.h"
 #include "TerrainChunk.h"
+
+#include "MinecraftLikeTerrain.generated.h"
 
 UCLASS()
 class PMC_TEST_API AMinecraftLikeTerrain : public AActor
@@ -19,6 +20,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	virtual void Init();
 
 	virtual void SpawnChunks();
 	virtual void PerlinNoise2DTerrain(int number_of_passings);
@@ -31,6 +33,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 protected:
-	ATerrainChunk * * chunks_grid;
-	
+	TArray<ATerrainChunk*> chunks_grid;
+	int terrain_edge_length;
 };

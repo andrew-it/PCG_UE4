@@ -21,6 +21,9 @@ public:
 	virtual void SetValues(int32 blocksHeight, int32 blocksLength, int32 blocksDepth,
 		UStaticMesh* StaticMesh, UMaterialInstance* Material);
 
+	float getZSize() { return ZSizeBlocks * BlockHeight; }
+	float getYSize() { return YSizeBlocks * BlockDepth; }
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void setMaskValue(int32 x, int32 y, int32 z, bool value);
