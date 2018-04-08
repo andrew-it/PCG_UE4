@@ -45,7 +45,7 @@ void AMinecraftLikeTerrain::SpawnChunks()
 			//chunk->SetActorRotation(rotation);
 			chunk->spawnObject();
 
-			this->chunks_grid[x + y * this->terrain_edge_length] = chunk;
+			SetChunkByCoord(x, y, chunk);
 		}
 	}
 }
@@ -64,6 +64,51 @@ void AMinecraftLikeTerrain::DiamondSqareTerrain()
 
 void AMinecraftLikeTerrain::Mixed2DTerrain(int number_of_perlin_passings)
 {
+}
+
+bool AMinecraftLikeTerrain::ChangeBlockValue(int x, int y, int z, int value)
+{
+	if (x < 0 || x > GetLengthInBlocks() - 1 || 
+		y < 0 || y > GetDepthInBlocks()  - 1 || 
+		z < 0 || z > GetHeigthInBlocks() - 1 )
+		return false;
+	else
+	{
+		int chunk_x_coord = x / chunk_length;
+		int chunk_y_coord = y / chunk_depth;
+
+		int coord_x_in_chunk = x % chunk_length;
+		int coord_y_in_chunk = y % chunk_depth;
+
+		auto chunk = GetChunkByCoord(chunk_x_coord, chunk_y_coord);
+
+		if (!chunk) return false;
+
+		chunk->setMaskValue(coord_x_in_chunk, coord_y_in_chunk, z, value);
+
+		return true;
+	}
+}
+
+ATerrainChunk * AMinecraftLikeTerrain::GetChunkByCoord(int x, int y)
+{
+	if (x < 0 || x > chunk_length - 1 ||
+		y < 0 || y > chunk_depth  - 1)
+		return nullptr;
+	else
+		return chunks_grid[x + y * terrain_edge_length];
+}
+
+bool AMinecraftLikeTerrain::SetChunkByCoord(int x, int y, ATerrainChunk * value)
+{
+	if (x < 0 || x > chunk_length - 1 ||
+		y < 0 || y > chunk_depth - 1)
+		return false;
+	else
+	{
+		chunks_grid[x + y * terrain_edge_length] = value;
+		return true;
+	}
 }
 
 // Called every frame

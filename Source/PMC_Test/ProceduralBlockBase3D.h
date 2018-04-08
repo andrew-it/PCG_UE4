@@ -26,8 +26,10 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+public:
 	virtual void setMaskValue(int32 x, int32 y, int32 z, bool value);
 	virtual bool getMaskValue(int32 x, int32 y, int32 z);
+protected:
 	void initMask(bool value);
 	
 public:
