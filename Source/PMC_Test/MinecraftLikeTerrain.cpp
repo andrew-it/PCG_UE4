@@ -58,8 +58,15 @@ void AMinecraftLikeTerrain::PerlinNoise3DTerrain(int number_of_passings)
 {
 }
 
-void AMinecraftLikeTerrain::DiamondSqareTerrain()
+void AMinecraftLikeTerrain::DiamondSquareTerrain()
 {
+	int min_h = 0;
+	int max_h = GetHeigthInBlocks();
+	int water_level = max_h / 2;
+
+
+
+
 }
 
 void AMinecraftLikeTerrain::Mixed2DTerrain(int number_of_perlin_passings)
@@ -88,6 +95,12 @@ bool AMinecraftLikeTerrain::ChangeBlockValue(int x, int y, int z, int value)
 
 		return true;
 	}
+}
+
+void AMinecraftLikeTerrain::ChangeColumnHeight(int x, int y, int height)
+{
+	for (int h = 0; h < height; h++)
+		ChangeBlockValue(x, y, h, 1);
 }
 
 ATerrainChunk * AMinecraftLikeTerrain::GetChunkByCoord(int x, int y)

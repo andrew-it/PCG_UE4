@@ -26,7 +26,7 @@ protected:
 	virtual void SpawnChunks();
 	virtual void PerlinNoise2DTerrain(int number_of_passings);
 	virtual void PerlinNoise3DTerrain(int number_of_passings);
-	virtual void DiamondSqareTerrain();
+	virtual void DiamondSquareTerrain();
 	virtual void Mixed2DTerrain(int number_of_perlin_passings);
 
 	virtual int GetLengthInBlocks() { return terrain_edge_length * chunk_length; }
@@ -34,6 +34,7 @@ protected:
 	virtual int GetHeigthInBlocks() { return chunk_height; }
 
 	virtual bool ChangeBlockValue(int x, int y, int z, int value);
+	virtual void ChangeColumnHeight(int x, int y, int height);
 
 	virtual ATerrainChunk* GetChunkByCoord(int x, int y);
 	virtual bool SetChunkByCoord(int x, int y, ATerrainChunk* value);
