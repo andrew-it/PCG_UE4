@@ -47,15 +47,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
 	int terrain_edge_length = 64;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
-	int chunk_length = 64;
+	int chunk_length = 4;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
 	int chunk_height = 8;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
-	int chunk_depth = 64;
+	int chunk_depth = 4;
 
-	int BlockWidth = 0;
-	int BlockDepth = 0;
-	int BlockHeight = 0;
+	float BlockWidth = 0;
+	float BlockDepth = 0;
+	float BlockHeight = 0;
 
 protected:
 	TArray<ATerrainChunk*> chunks_grid;

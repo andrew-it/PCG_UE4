@@ -22,6 +22,7 @@ void AProceduralBlockBase3D::SetValues(int32 blocksHeight, int32 blocksLength, i
 void AProceduralBlockBase3D::BeginPlay()
 {
 	Super::BeginPlay();
+	initMask(true);
 }
 
 void AProceduralBlockBase3D::setMaskValue(int32 x, int32 y, int32 z, bool value)

@@ -24,19 +24,32 @@ void ATerrainChunk::Initialize(int numberOfXBlocks, int numberOfYBlocks, int num
 	XSizeBlocks = numberOfXBlocks;
 	YSizeBlocks = numberOfYBlocks;
 	ZSizeBlocks = numberOfZBlocks;
+
+	if (StaticMesh)
+	{
+		auto boundingBoxSize = StaticMesh->GetBoundingBox().GetSize();
+		BlockWidth = boundingBoxSize.X;
+		BlockDepth = boundingBoxSize.Y;
+		BlockHeight = boundingBoxSize.Z;
+	}
 }
 
 void ATerrainChunk::Initialize()
 {
 	Super::Initialize();
-	XSizeBlocks = 64;
-	YSizeBlocks = 64;
-	ZSizeBlocks = 8;
+
+	if (StaticMesh)
+	{
+		auto boundingBoxSize = StaticMesh->GetBoundingBox().GetSize();
+		BlockWidth = boundingBoxSize.X;
+		BlockDepth = boundingBoxSize.Y;
+		BlockHeight = boundingBoxSize.Z;
+	}
+	//spawnObject();
 }
 
 void ATerrainChunk::BeginPlay()
 {
 	Super::BeginPlay();
 	Initialize();
-	spawnObject();
 }

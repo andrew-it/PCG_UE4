@@ -13,30 +13,112 @@
 class DimondSquareAlghorithm
 {
 public:
-	DimondSquareAlghorithm(int size);
+	DimondSquareAlghorithm(int x_len, int y_len)
+	{
+		X_len = x_len;
+		Y_len = y_len;
+		values.Init(0, x_len * y_len);
+	}
 
-	~DimondSquareAlghorithm();
+	TArray<double> values;
+	int X_len;
+	int Y_len;
 
-	void generateWorld();
+	double frand(double fMin = 0, double fMax = 1)
+	{
+		double f = (double)rand() / RAND_MAX;
+		return fMin + f * (fMax - fMin);
+	}
 
-	double fRand2(double fMin, double fMax);
+	double getValue(int x, int y)
+	{
+		return values[x + y * Y_len];
+	}
 
-	void timeReset();
+	void setValue(int x, int y, double value)
+	{
+		values[x + y * Y_len] = value;
+	}
 
-	void init_blocks_cords(DimondSquareAlghorithm algorithm);
+	void squareStep(int x, int y, int size, double value)
+	{
+		int hs = size / 2;
 
-	void setScaleASmooth(int scale, int smooth);
+		// a     b 
+		//
+		//    x
+		//
+		// c     d
 
-	std::map<int, std::vector<std::vector<double>>> getBlocks();
+		double a = getValue(x - hs, y - hs);
+		double b = getValue(x + hs, y - hs);
+		double c = getValue(x - hs, y + hs);
+		double d = getValue(x + hs, y + hs);
 
-	std::vector<std::vector<double>> tiles;
-	int worldSize; // Only the power of two + 1
+		setValue(x, y, ((a + b + c + d) / 4.0) + value);
+	}
 
-	std::map<int, std::map<int, std::vector<double>>> hmBlocks;
+	void diamondStep(int x, int y, int size, double value)
+	{
+		int hs = size / 2;
 
-	std::map<int, std::vector<double>> hmCoord;
-	// final set of drawing blocks, block id - point id - x || y || z
-	std::map<int, std::vector<std::vector<double>>> finalMapOfBlocks;
-	// final set of drawing blocks, block id - point id - x || y || z with smooth
-	std::map<int, std::vector<std::vector<double>>> finalMapOfBlocksWithSizeASmooth;
+		//   c
+		//
+		//a  x  b
+		//
+		//   d
+
+		double a = getValue(x - hs, y);
+		double b = getValue(x + hs, y);
+		double c = getValue(x, y - hs);
+		double d = getValue(x, y + hs);
+
+		setValue(x, y, ((a + b + c + d) / 4.0) + value);
+	}
+
+	void DiamondSquare(int stepsize, double scale)
+	{
+
+		int halfstep = stepsize / 2;
+
+		for (int y = halfstep; y < Y_len + halfstep; y += stepsize)
+		{
+			for (int x = halfstep; x < X_len + halfstep; x += stepsize)
+			{
+				squareStep(x, y, stepsize, frand() * scale);
+			}
+		}
+
+		for (int y = 0; y < Y_len; y += stepsize)
+		{
+			for (int x = 0; x < X_len; x += stepsize)
+			{
+				diamondStep(x + halfstep, y, stepsize, frand() * scale);
+				diamondStep(x, y + halfstep, stepsize, frand() * scale);
+			}
+		}
+
+	}
+
+	void generateDS(int featuresize)
+	{
+		for (int y = 0; y < Y_len; y += featuresize)
+			for (int x = 0; x < X_len; x += featuresize)
+			{
+				setValue(x, y, frand());  //IMPORTANT: frand() is a random function that returns a value between -1 and 1.
+			}
+
+		int samplesize = featuresize;
+
+		double scale = 1.0;
+
+		while (samplesize < 1)
+		{
+
+			DiamondSquare(samplesize, scale);
+
+			samplesize /= 2;
+			scale /= 2.0;
+		}
+	}
 };
