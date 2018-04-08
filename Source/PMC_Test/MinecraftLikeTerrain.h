@@ -16,11 +16,12 @@ class PMC_TEST_API AMinecraftLikeTerrain : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AMinecraftLikeTerrain();
-
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	virtual void Init();
+	virtual void Initialize();
 
 	virtual void SpawnChunks();
 	virtual void PerlinNoise2DTerrain(int number_of_passings);
@@ -29,10 +30,23 @@ protected:
 	virtual void Mixed2DTerrain(int number_of_perlin_passings);
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
+	UStaticMesh* StaticMesh;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
+	UMaterialInstance* Material;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
+	int terrain_edge_length = 64;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
+	int chunk_length = 64;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
+	int chunk_height = 8;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
+	int chunk_depth = 64;
+
+	int BlockWidth = 0;
+	int BlockDepth = 0;
+	int BlockHeight = 0;
 
 protected:
 	TArray<ATerrainChunk*> chunks_grid;
-	int terrain_edge_length;
 };

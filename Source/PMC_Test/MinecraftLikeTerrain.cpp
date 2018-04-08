@@ -8,19 +8,26 @@ AMinecraftLikeTerrain::AMinecraftLikeTerrain()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	Init();
 }
 
 // Called when the game starts or when spawned
 void AMinecraftLikeTerrain::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	Initialize();
 }
 
-void AMinecraftLikeTerrain::Init()
+void AMinecraftLikeTerrain::Initialize()
 {
 	this->chunks_grid.Init(0, this->terrain_edge_length * this->terrain_edge_length);
+
+	if (StaticMesh)
+	{
+		auto boundingBoxSize = StaticMesh->GetBoundingBox().GetSize();
+		BlockWidth = boundingBoxSize.X;
+		BlockDepth = boundingBoxSize.Y;
+		BlockHeight = boundingBoxSize.Z;
+	}
 }
 
 void AMinecraftLikeTerrain::SpawnChunks()
@@ -32,7 +39,7 @@ void AMinecraftLikeTerrain::SpawnChunks()
 			ATerrainChunk * chunk;
 			chunk = GetWorld()->SpawnActor<ATerrainChunk>(ATerrainChunk::StaticClass());
 
-			chunk->Initialize();
+			chunk->Initialize(chunk_length, chunk_depth, chunk_height);
 			FVector location = FVector(x * chunk->getXSize(), y *  chunk->getYSize(), 0);
 			chunk->SetActorLocation(location);
 			//chunk->SetActorRotation(rotation);
