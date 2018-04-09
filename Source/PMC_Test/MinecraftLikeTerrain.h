@@ -45,7 +45,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
 	UMaterialInstance* Material;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
-	int terrain_edge_length = 64;
+	int terrain_edge_length = 8;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
 	int chunk_length = 4;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")

@@ -44,10 +44,7 @@ void AMinecraftLikeTerrain::SpawnChunks()
 			ATerrainChunk * chunk;
 			chunk = GetWorld()->SpawnActor<ATerrainChunk>(ATerrainChunk::StaticClass());
 
-			chunk->StaticMesh = this->StaticMesh;
-			chunk->Material = this->Material;
-
-			chunk->Initialize(chunk_length, chunk_depth, chunk_height);
+			chunk->Initialize(chunk_length, chunk_depth, chunk_height, StaticMesh, Material);
 			FVector location = FVector(x * chunk->getXSize(), y *  chunk->getYSize(), 0);
 			chunk->SetActorLocation(location);
 			//chunk->SetActorRotation(rotation);
@@ -68,10 +65,8 @@ void AMinecraftLikeTerrain::PerlinNoise3DTerrain(int number_of_passings)
 
 void AMinecraftLikeTerrain::DiamondSquareTerrain()
 {
-	int max_h = GetHeigthInBlocks();
 	int x_len = GetLengthInBlocks();
 	int y_len = GetDepthInBlocks();
-	int water_level = max_h / 2;
 
 	DimondSquareAlghorithm* DS_Alg = new DimondSquareAlghorithm(x_len, y_len);
 
@@ -81,10 +76,10 @@ void AMinecraftLikeTerrain::DiamondSquareTerrain()
 		for (int y = 0; y < y_len; y++)
 		{
 			double h_value = DS_Alg->getValue(x, y);
-			int height = (int)((double)max_h * h_value);
+			int height = (int)((double)GetHeigthInBlocks() * h_value);
 			ChangeColumnHeight(x, y, height);
 		}
-	UE_LOG(LogTemp, Log, TEXT("Diamond-Square alghorithm finished"));
+	UE_LOG(LogTemp, Warning, TEXT("Diamond-Square alghorithm finished"));
 }
 
 void AMinecraftLikeTerrain::Mixed2DTerrain(int number_of_perlin_passings)
@@ -93,22 +88,12 @@ void AMinecraftLikeTerrain::Mixed2DTerrain(int number_of_perlin_passings)
 
 bool AMinecraftLikeTerrain::ChangeBlockValue(int x, int y, int z, int value)
 {
-	int l = GetLengthInBlocks();
-	int d = GetDepthInBlocks();
-	int h = GetHeigthInBlocks();
-	if (x < 0 || x >= l)
-		UE_LOG(LogTemp, Error, TEXT("AMinecraftLikeTerrain::ChangeBlockValue: x"));
-	if (y < 0 || y >= d)
-		UE_LOG(LogTemp, Error, TEXT("AMinecraftLikeTerrain::ChangeBlockValue: y"));
-	if (z < 0 || z >= h)
-		UE_LOG(LogTemp, Error, TEXT("AMinecraftLikeTerrain::ChangeBlockValue: z"));
-	if (x < 0 || x >= l  || 
-		y < 0 || y >= d   || 
-		z < 0 || z >= h  )
+	if (x < 0 || x >= GetLengthInBlocks() ||
+		y < 0 || y >= GetDepthInBlocks()  ||
+		z < 0 || z >= GetHeigthInBlocks() )
 	{ 
 		UE_LOG(LogTemp, Error, 
-			TEXT("AMinecraftLikeTerrain::ChangeBlockValue: coordinates are outside the bound.\nx:%d; y:%d; z:%d"), 
-			x, y, z);
+			TEXT("AMinecraftLikeTerrain::ChangeBlockValue: coordinates are outside the bound. x:%d; y:%d; z:%d"), x, y, z);
 		return false;
 	}
 	else
@@ -119,11 +104,11 @@ bool AMinecraftLikeTerrain::ChangeBlockValue(int x, int y, int z, int value)
 		int coord_x_in_chunk = x % chunk_length;
 		int coord_y_in_chunk = y % chunk_depth;
 
-		ATerrainChunk * chunk = GetChunkByCoord((int)(x / chunk_length), (int)(y / chunk_depth));
+		ATerrainChunk * chunk = GetChunkByCoord(chunk_x_coord, chunk_y_coord);
 
 		if (!chunk) return false;
 
-		chunk->setMaskValue(x % chunk_length, y % chunk_depth, z, value);
+		chunk->setMaskValue(coord_x_in_chunk, coord_y_in_chunk, z, value);
 
 		return true;
 	}
@@ -137,13 +122,12 @@ void AMinecraftLikeTerrain::ChangeColumnHeight(int x, int y, int height)
 
 ATerrainChunk * AMinecraftLikeTerrain::GetChunkByCoord(int x, int y)
 {
-	if (x < 0 || x >= chunk_length ||
-		y < 0 || y >= chunk_depth  )
+	if (x < 0 || x >= terrain_edge_length ||
+		y < 0 || y >= terrain_edge_length  )
 	{
 		UE_LOG(LogTemp, Error, 
-			TEXT("AMinecraftLikeTerrain::GetChunkByCoord: coordinates are outside the bound.\nx:%d; y:%d;"), 
-			x, y);
-		return nullptr;
+			TEXT("AMinecraftLikeTerrain::GetChunkByCoord: coordinates are outside the bound. x:%d; y:%d;"), x, y);
+		return NULL;
 	}
 	else
 		return chunks_grid[x + y * terrain_edge_length];
@@ -151,12 +135,11 @@ ATerrainChunk * AMinecraftLikeTerrain::GetChunkByCoord(int x, int y)
 
 bool AMinecraftLikeTerrain::SetChunkByCoord(int x, int y, ATerrainChunk * value)
 {
-	if (x < 0 || x >= chunk_length ||
-		y < 0 || y >= chunk_depth  )
+	if (x < 0 || x >= terrain_edge_length ||
+		y < 0 || y >= terrain_edge_length  )
 	{
 		UE_LOG(LogTemp, Error, 
-			TEXT("AMinecraftLikeTerrain::SetChunkByCoord: coordinates are outside the bound.\nx:%d; y:%d;"), 
-			x, y);
+			TEXT("AMinecraftLikeTerrain::SetChunkByCoord: coordinates are outside the bound. x:%d; y:%d;"), x, y);
 		return false;
 	}
 	else

@@ -18,12 +18,16 @@ void ATerrainChunk::spawnObject()
 				}
 }
 
-void ATerrainChunk::Initialize(int numberOfXBlocks, int numberOfYBlocks, int numberOfZBlocks)
+void ATerrainChunk::Initialize(int numberOfXBlocks, int numberOfYBlocks, int numberOfZBlocks,
+                               UStaticMesh* StaticMesh, UMaterialInstance* Material)
 {
 	Super::Initialize();
 	XSizeBlocks = numberOfXBlocks;
 	YSizeBlocks = numberOfYBlocks;
 	ZSizeBlocks = numberOfZBlocks;
+    
+    this->Material = Material;
+    this->StaticMesh = StaticMesh;
 
 	if (StaticMesh)
 	{
