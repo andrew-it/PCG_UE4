@@ -21,7 +21,8 @@ void ATerrainChunk::spawnObject()
 void ATerrainChunk::Initialize(int numberOfXBlocks, int numberOfYBlocks, int numberOfZBlocks,
                                UStaticMesh* StaticMesh, UMaterialInstance* Material)
 {
-	Super::Initialize();
+	//Super::Initialize();
+
 	XSizeBlocks = numberOfXBlocks;
 	YSizeBlocks = numberOfYBlocks;
 	ZSizeBlocks = numberOfZBlocks;
@@ -29,13 +30,7 @@ void ATerrainChunk::Initialize(int numberOfXBlocks, int numberOfYBlocks, int num
     this->Material = Material;
     this->StaticMesh = StaticMesh;
 
-	if (StaticMesh)
-	{
-		auto boundingBoxSize = StaticMesh->GetBoundingBox().GetSize();
-		BlockWidth = boundingBoxSize.X;
-		BlockDepth = boundingBoxSize.Y;
-		BlockHeight = boundingBoxSize.Z;
-	}
+	Initialize();
 }
 
 void ATerrainChunk::Initialize()
@@ -49,11 +44,16 @@ void ATerrainChunk::Initialize()
 		BlockDepth = boundingBoxSize.Y;
 		BlockHeight = boundingBoxSize.Z;
 	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("StaticMesh is null"));
+	}
+
 	//spawnObject();
 }
 
 void ATerrainChunk::BeginPlay()
 {
 	Super::BeginPlay();
-	Initialize();
+	
 }

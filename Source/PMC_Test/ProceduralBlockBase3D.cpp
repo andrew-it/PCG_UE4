@@ -8,6 +8,7 @@ AProceduralBlockBase3D::AProceduralBlockBase3D()
 void AProceduralBlockBase3D::Initialize()
 {
 	Super::Initialize();
+	initMask(true);
 }
 
 void AProceduralBlockBase3D::SetValues(int32 blocksHeight, int32 blocksLength, int32 blocksDepth, UStaticMesh * StaticMesh, UMaterialInstance * Material)
@@ -22,7 +23,6 @@ void AProceduralBlockBase3D::SetValues(int32 blocksHeight, int32 blocksLength, i
 void AProceduralBlockBase3D::BeginPlay()
 {
 	Super::BeginPlay();
-	initMask(true);
 }
 
 void AProceduralBlockBase3D::setMaskValue(int32 x, int32 y, int32 z, bool value)

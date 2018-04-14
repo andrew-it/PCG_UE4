@@ -20,8 +20,6 @@ void AMinecraftLikeTerrain::BeginPlay()
 
 void AMinecraftLikeTerrain::Initialize()
 {
-	this->chunks_grid.Init(0, terrain_edge_length * terrain_edge_length);
-
 	if (StaticMesh)
 	{
 		auto boundingBoxSize = StaticMesh->GetBoundingBox().GetSize();
@@ -29,6 +27,8 @@ void AMinecraftLikeTerrain::Initialize()
 		BlockDepth = boundingBoxSize.Y;
 		BlockHeight = boundingBoxSize.Z;
 	}
+
+	InitChunks();
 
 	DiamondSquareTerrain();
 
@@ -41,14 +41,31 @@ void AMinecraftLikeTerrain::SpawnChunks()
 	{
 		for (int y = 0; y < this->terrain_edge_length; y++)
 		{
+			auto chunk = GetChunkByCoord(x, y);
+			chunk->spawnObject();
+		}
+	}
+}
+
+void AMinecraftLikeTerrain::InitChunks()
+{
+	this->chunks_grid.Init(0, terrain_edge_length * terrain_edge_length);
+
+	for (int x = 0; x < this->terrain_edge_length; x++)
+	{
+		for (int y = 0; y < this->terrain_edge_length; y++)
+		{
 			ATerrainChunk * chunk;
 			chunk = GetWorld()->SpawnActor<ATerrainChunk>(ATerrainChunk::StaticClass());
 
+			chunk->StaticMesh = this->StaticMesh;
+
 			chunk->Initialize(chunk_length, chunk_depth, chunk_height, StaticMesh, Material);
+			auto currentLoc = this->GetActorLocation();
 			FVector location = FVector(x * chunk->getXSize(), y *  chunk->getYSize(), 0);
-			chunk->SetActorLocation(location);
+			chunk->SetActorLocation(location + currentLoc);
 			//chunk->SetActorRotation(rotation);
-			chunk->spawnObject();
+			//chunk->spawnObject();
 
 			SetChunkByCoord(x, y, chunk);
 		}
@@ -93,7 +110,8 @@ bool AMinecraftLikeTerrain::ChangeBlockValue(int x, int y, int z, int value)
 		z < 0 || z >= GetHeigthInBlocks() )
 	{ 
 		UE_LOG(LogTemp, Error, 
-			TEXT("AMinecraftLikeTerrain::ChangeBlockValue: coordinates are outside the bound. x:%d; y:%d; z:%d"), x, y, z);
+			TEXT("AMinecraftLikeTerrain::ChangeBlockValue: coordinates are outside the bound. x:%d; y:%d; z:%d"), 
+			x, y, z);
 		return false;
 	}
 	else

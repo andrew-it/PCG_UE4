@@ -12,6 +12,9 @@ Intermediate/
 # StarterContent
 StarterContent/
 
+# Maps
+*.umap
+
 # Visual Studio 2015 database file
 *.VC.db
 

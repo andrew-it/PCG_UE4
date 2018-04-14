@@ -23,6 +23,7 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void Initialize();
 
+	virtual void InitChunks();
 	virtual void SpawnChunks();
 	virtual void PerlinNoise2DTerrain(int number_of_passings);
 	virtual void PerlinNoise3DTerrain(int number_of_passings);
