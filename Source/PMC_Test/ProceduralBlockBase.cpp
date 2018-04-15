@@ -5,7 +5,8 @@ AProceduralBlockBase::AProceduralBlockBase()
 {
     PrimaryActorTick.bCanEverTick = true;
     SMComponent = CreateDefaultSubobject < UInstancedStaticMeshComponent >(TEXT("block"));
-    RootComponent = SMComponent;
+    sceneComponent = CreateDefaultSubobject < USceneComponent >(TEXT("Scene component"));
+    RootComponent = sceneComponent;
     auto datetime = new FDateTime();
     Seed = datetime->GetMillisecond();
 }
@@ -58,4 +59,6 @@ void AProceduralBlockBase::Initialize()
     }
 	else
 		UE_LOG(LogTemp, Warning, TEXT("Material is NULL"))
+        
+    SMComponent->AttachToComponent(sceneComponent, FAttachmentTransformRules::KeepWorldTransform);
 }

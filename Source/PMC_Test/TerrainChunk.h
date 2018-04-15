@@ -13,6 +13,7 @@ class PMC_TEST_API ATerrainChunk : public AProceduralBlockBase3D
 	GENERATED_BODY()
 
 public:
+    ATerrainChunk();
 	virtual void spawnObject();
 	virtual void Initialize(int numberOfXBlocks, int numberOfYBlocks, int numberOfZBlocks,
                             UStaticMesh* StaticMesh);

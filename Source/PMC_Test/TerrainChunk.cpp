@@ -3,6 +3,14 @@
 #include "TerrainChunk.h"
 #include "TerrainTypes.h"
 
+ATerrainChunk::ATerrainChunk()
+{
+    Water_SMComponent = CreateDefaultSubobject < UInstancedStaticMeshComponent >(TEXT("water block"));
+    Dirt_SMComponent = CreateDefaultSubobject < UInstancedStaticMeshComponent >(TEXT("dirt block"));
+    Stone_SMComponent = CreateDefaultSubobject < UInstancedStaticMeshComponent >(TEXT("stone block"));
+    Grass_SMComponent = CreateDefaultSubobject < UInstancedStaticMeshComponent >(TEXT("grass block"));
+}
+
 void ATerrainChunk::spawnObject()
 {
 	for (int x = 0; x < XSizeBlocks; ++x)
@@ -14,42 +22,41 @@ void ATerrainChunk::spawnObject()
 				{
 					FVector current_location = this->GetActorLocation();
                     
-                    auto comp = SMComponent->AddInstance(FTransform(current_location +
-                                                                    FVector(BlockWidth * x,
-                                                                            BlockDepth * y,
-                                                                            BlockHeight * z)));
-                    UE_LOG(LogTemp, Warning, TEXT("Component address: %d"), comp);
+//                    auto comp = SMComponent->AddInstance(FTransform(current_location +
+//                                                                    FVector(BlockWidth * x,
+//                                                                            BlockDepth * y,
+//                                                                            BlockHeight * z)));
                 
-                    /*switch(maskValue) {
+                    switch(maskValue) {
                         case GRASS:
-                            SMComponent->AddInstance(FTransform(current_location +
+                            Grass_SMComponent->AddInstance(FTransform(current_location +
                                                                 FVector(BlockWidth * x,
                                                                         BlockDepth * y,
                                                                         BlockHeight * z)));
                             break;
-                            
+                     
                         case DIRT:
-                            SMComponent->AddInstance(FTransform(current_location +
+                            Dirt_SMComponent->AddInstance(FTransform(current_location +
                                                                 FVector(BlockWidth * x,
                                                                         BlockDepth * y,
                                                                         BlockHeight * z)));
                             break;
                             
                         case STONE:
-                            SMComponent->AddInstance(FTransform(current_location +
+                            Stone_SMComponent->AddInstance(FTransform(current_location +
                                                                 FVector(BlockWidth * x,
                                                                         BlockDepth * y,
                                                                         BlockHeight * z)));
                             break;
                             
                         case WATER:
-                            SMComponent->AddInstance(FTransform(current_location +
+                            Water_SMComponent->AddInstance(FTransform(current_location +
                                                                 FVector(BlockWidth * x,
                                                                         BlockDepth * y,
                                                                         BlockHeight * z)));
                             break;
-                            
-                    }*/
+                     
+                    }
 				}
             }
 }
@@ -64,7 +71,24 @@ void ATerrainChunk::Initialize(int numberOfXBlocks, int numberOfYBlocks, int num
     ZSizeBlocks = numberOfZBlocks;
     
     this->StaticMesh = StaticMesh;
-
+    
+    
+    Water_SMComponent->AttachToComponent(sceneComponent, FAttachmentTransformRules::KeepWorldTransform);
+    Dirt_SMComponent->AttachToComponent(sceneComponent, FAttachmentTransformRules::KeepWorldTransform);
+    Stone_SMComponent->AttachToComponent(sceneComponent, FAttachmentTransformRules::KeepWorldTransform);
+    Grass_SMComponent->AttachToComponent(sceneComponent, FAttachmentTransformRules::KeepWorldTransform);
+    
+    Water_SMComponent->SetStaticMesh(StaticMesh);
+    Dirt_SMComponent->SetStaticMesh(StaticMesh);
+    Stone_SMComponent->SetStaticMesh(StaticMesh);
+    Grass_SMComponent->SetStaticMesh(StaticMesh);
+    
+    Water_SMComponent->SetMaterial(0, Water_Material);
+    Dirt_SMComponent->SetMaterial(0, Dirt_Material);
+    Stone_SMComponent->SetMaterial(0, Stone_Material);
+    Grass_SMComponent->SetMaterial(0, Grass_Material);
+    
+    
 	Initialize();
 }
 

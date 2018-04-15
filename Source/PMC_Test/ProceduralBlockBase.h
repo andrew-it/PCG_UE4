@@ -32,6 +32,8 @@ protected:
     
     TArray<int32> mask_array;
     
+    USceneComponent* sceneComponent;
+    
 public:
     virtual void spawnObject() PURE_VIRTUAL(AProceduralBlockBase::spawnObject, ;);
     virtual void Initialize();
