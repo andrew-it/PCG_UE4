@@ -30,7 +30,7 @@ protected:
     virtual void BeginPlay() override;
     virtual void initMask(bool value);
     
-    TArray<bool> mask_array;
+    TArray<int32> mask_array;
     
 public:
     virtual void spawnObject() PURE_VIRTUAL(AProceduralBlockBase::spawnObject, ;);

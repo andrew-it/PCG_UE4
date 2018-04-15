@@ -43,8 +43,16 @@ protected:
 public:	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
 	UStaticMesh* StaticMesh;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Materials")
 	UMaterialInstance* Material;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Materials")
+    UMaterialInstance* Water_Material;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Materials")
+    UMaterialInstance* Dirt_Material;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Materials")
+    UMaterialInstance* Stone_Material;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Materials")
+    UMaterialInstance* Grass_Material;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
 	int terrain_edge_length = 8;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
@@ -53,10 +61,16 @@ public:
 	int chunk_height = 8;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
 	int chunk_depth = 4;
-
-	float BlockWidth = 0;
-	float BlockDepth = 0;
-	float BlockHeight = 0;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Terrain heights")
+    int water_level;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Terrain heights")
+    int dirt_level;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Terrain heights")
+    int stone_level;
+    
+    float BlockWidth = 0;
+    float BlockDepth = 0;
+    float BlockHeight = 0;
 
 protected:
 	TArray<ATerrainChunk*> chunks_grid;

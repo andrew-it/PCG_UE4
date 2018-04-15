@@ -11,13 +11,19 @@ void AProceduralBlockBase3D::Initialize()
 	initMask(true);
 }
 
-void AProceduralBlockBase3D::SetValues(int32 blocksHeight, int32 blocksLength, int32 blocksDepth, UStaticMesh * StaticMesh, UMaterialInstance * Material)
+void AProceduralBlockBase3D::SetValues(int32 blocksHeight, int32 blocksLength, int32 blocksDepth, UStaticMesh * StaticMesh)
 {
 	this->ZSizeBlocks = blocksHeight;
 	this->XSizeBlocks = blocksLength;
 	this->YSizeBlocks = blocksDepth;
 	this->StaticMesh = StaticMesh;
-	this->Material = Material;
+
+}
+
+void AProceduralBlockBase3D::SetMaterial(UMaterialInstance * Material)
+{
+    if(Material)
+        this->Material = Material;
 }
 
 void AProceduralBlockBase3D::BeginPlay()
@@ -30,7 +36,7 @@ void AProceduralBlockBase3D::setMaskValue(int32 x, int32 y, int32 z, bool value)
 	mask_array[x + y * XSizeBlocks + z * XSizeBlocks * YSizeBlocks] = value;
 }
 
-bool AProceduralBlockBase3D::getMaskValue(int32 x, int32 y, int32 z)
+int32 AProceduralBlockBase3D::getMaskValue(int32 x, int32 y, int32 z)
 {
 	return mask_array[x + y * XSizeBlocks + z * XSizeBlocks * YSizeBlocks];
 }

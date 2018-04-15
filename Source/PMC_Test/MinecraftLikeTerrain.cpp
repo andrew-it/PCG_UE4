@@ -59,13 +59,11 @@ void AMinecraftLikeTerrain::InitChunks()
 			chunk = GetWorld()->SpawnActor<ATerrainChunk>(ATerrainChunk::StaticClass());
 
 			chunk->StaticMesh = this->StaticMesh;
-
-			chunk->Initialize(chunk_length, chunk_depth, chunk_height, StaticMesh, Material);
+            chunk->InitMaterials(Material, Water_Material, Dirt_Material, Stone_Material, Grass_Material);
+			chunk->Initialize(chunk_length, chunk_depth, chunk_height, StaticMesh);
 			auto currentLoc = this->GetActorLocation();
-			FVector location = FVector(x * chunk->getXSize(), y *  chunk->getYSize(), 0);
+			FVector location = FVector(x * chunk->getXSize() / 2, y *  chunk->getYSize() / 2, -chunk->getZSize());
 			chunk->SetActorLocation(location + currentLoc);
-			//chunk->SetActorRotation(rotation);
-			//chunk->spawnObject();
 
 			SetChunkByCoord(x, y, chunk);
 		}
@@ -84,6 +82,7 @@ void AMinecraftLikeTerrain::DiamondSquareTerrain()
 {
 	int x_len = GetLengthInBlocks();
 	int y_len = GetDepthInBlocks();
+    int z_len = GetHeigthInBlocks();
 
 	DimondSquareAlghorithm* DS_Alg = new DimondSquareAlghorithm(x_len, y_len);
 
@@ -93,7 +92,7 @@ void AMinecraftLikeTerrain::DiamondSquareTerrain()
 		for (int y = 0; y < y_len; y++)
 		{
 			double h_value = DS_Alg->getValue(x, y);
-			int height = (int)((double)GetHeigthInBlocks() * h_value);
+			int height = (int)((double)(z_len / 2) * h_value) + z_len / 2;
 			ChangeColumnHeight(x, y, height);
 		}
 	UE_LOG(LogTemp, Warning, TEXT("Diamond-Square alghorithm finished"));
@@ -134,8 +133,11 @@ bool AMinecraftLikeTerrain::ChangeBlockValue(int x, int y, int z, int value)
 
 void AMinecraftLikeTerrain::ChangeColumnHeight(int x, int y, int height)
 {
-	for (int h = 0; h < height; h++)
-		ChangeBlockValue(x, y, h, 1);
+	for (int h = 0; h < GetHeigthInBlocks(); h++)
+        if (h < height)
+            ChangeBlockValue(x, y, h, 1);
+        else
+            ChangeBlockValue(x, y, h, 0);
 }
 
 ATerrainChunk * AMinecraftLikeTerrain::GetChunkByCoord(int x, int y)
