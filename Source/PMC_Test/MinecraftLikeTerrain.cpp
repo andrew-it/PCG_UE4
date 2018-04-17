@@ -161,7 +161,7 @@ void AMinecraftLikeTerrain::Mixed2DTerrain(int number_of_perlin_passings)
         {
             for (int z = 0; z < z_len - z_len*0.6; z++)
             {
-                bool isBlock = perlin.octaveNoise0_1(x / fx, y / fy, z / fz, Octaves) > 0.7;
+                bool isBlock = perlin.octaveNoise0_1(x / fx, y / fy, z / fz, OctavesMultiplyer*Octaves) > 0.45;
                 ChangeBlock(x, y, z, isBlock);
             }
         }
@@ -223,13 +223,19 @@ void AMinecraftLikeTerrain::ChangeColumnHeight(int x, int y, int height)
 
 void AMinecraftLikeTerrain::ChangeBlock(int x, int y, int z, int value)
 {
-    int water_level = GetHeigthInBlocks() / 3;
+    int water_level = GetHeigthInBlocks() / 4;
+    int stone_level = GetHeigthInBlocks() / 3;
     int ground_level = GetHeigthInBlocks() / 2;
     
     if (z < ground_level)
     {
         if (value)
-            ChangeBlockValue(x, y, z, GRASS);
+        {
+            if (z < stone_level)
+                ChangeBlockValue(x, y, z, STONE);
+            else
+                ChangeBlockValue(x, y, z, GRASS);
+        }
         else if (z < water_level)
             ChangeBlockValue(x, y, z, WATER);
         else
@@ -238,7 +244,7 @@ void AMinecraftLikeTerrain::ChangeBlock(int x, int y, int z, int value)
     else
     {
         if (value)
-            ChangeBlockValue(x, y, z, GRASS);
+            ChangeBlockValue(x, y, z, DIRT);
         else
             ChangeBlockValue(x, y, z, NONE);
     }

@@ -17,7 +17,6 @@ void AProceduralBlockBase3D::SetValues(int32 blocksHeight, int32 blocksLength, i
 	this->XSizeBlocks = blocksLength;
 	this->YSizeBlocks = blocksDepth;
 	this->StaticMesh = StaticMesh;
-
 }
 
 void AProceduralBlockBase3D::SetMaterial(UMaterialInstance * Material)
