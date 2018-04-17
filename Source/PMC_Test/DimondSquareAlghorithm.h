@@ -4,121 +4,168 @@
 
 #include "CoreMinimal.h"
 
-#include <vector>
-#include <map>
-
-/**
- * 
- */
-class DimondSquareAlghorithm
+class DSA
 {
 public:
-	DimondSquareAlghorithm(int x_len, int y_len)
-	{
-		X_len = x_len;
-		Y_len = y_len;
-		values.Init(0, x_len * y_len);
-	}
+    int range; // Degree of randomness / roughness. Larger values generate rougher images.
+    int size;
+    int maxV;
+    
+    // The 2D array of integer values into which our fractal will be written
+    TArray<int> map;
+    
 
-	TArray<double> values;
-	int X_len;
-	int Y_len;
-
-	double frand(double fMin = 0, double fMax = 1)
-	{
-		double f = (double)rand() / RAND_MAX;
-		return fMin + f * (fMax - fMin);
-	}
-
-	double getValue(int x, int y)
-	{
-		return values[x + y * Y_len];
-	}
-
-	void setValue(int x, int y, double value)
-	{
-		values[x + y * Y_len] = value;
-	}
-
-	void squareStep(int x, int y, int size, double value)
-	{
-		int hs = size / 2;
-
-		// a     b 
-		//
-		//    x
-		//
-		// c     d
-
-		double a = getValue(x - hs, y - hs);
-		double b = getValue(x + hs, y - hs);
-		double c = getValue(x - hs, y + hs);
-		double d = getValue(x + hs, y + hs);
-
-		setValue(x, y, ((a + b + c + d) / 4.0) + value);
-	}
-
-	void diamondStep(int x, int y, int size, double value)
-	{
-		int hs = size / 2;
-
-		//   c
-		//
-		//a  x  b
-		//
-		//   d
-
-		double a = getValue(x - hs, y);
-		double b = getValue(x + hs, y);
-		double c = getValue(x, y - hs);
-		double d = getValue(x, y + hs);
-
-		setValue(x, y, ((a + b + c + d) / 4.0) + value);
-	}
-
-	void DiamondSquare(int stepsize, double scale)
-	{
-
-		int halfstep = stepsize / 2;
-
-		for (int y = halfstep; y < Y_len + halfstep; y += stepsize)
-		{
-			for (int x = halfstep; x < X_len + halfstep; x += stepsize)
-			{
-				squareStep(x, y, stepsize, frand() * scale);
-			}
-		}
-
-		for (int y = 0; y < Y_len; y += stepsize)
-		{
-			for (int x = 0; x < X_len; x += stepsize)
-			{
-				diamondStep(x + halfstep, y, stepsize, frand() * scale);
-				diamondStep(x, y + halfstep, stepsize, frand() * scale);
-			}
-		}
-
-	}
-
-	void generateDS(int featuresize)
-	{
-		for (int y = 0; y < Y_len; y += featuresize)
-			for (int x = 0; x < X_len; x += featuresize)
-			{
-				setValue(x, y, frand());  //IMPORTANT: frand() is a random function that returns a value between -1 and 1.
-			}
-
-		int samplesize = featuresize;
-
-		double scale = 1.0;
-
-		while (samplesize < 1)
-		{
-
-			DiamondSquare(samplesize, scale);
-
-			samplesize /= 2;
-			scale /= 2.0;
-		}
-	}
+public:
+    DSA(int size, int max)
+    {
+        this->size = size + 1;
+        this->maxV = max;
+        this->range = max/2;
+        map.Init(0, this->size * this->size);
+        init();
+        fractal();
+        clamp_map();
+    }
+    
+    int getValue(int x, int y)
+    {
+        return map[x + y * size];
+    }
+    
+    void setValue(int x, int y, int v)
+    {
+        map[x + y * size] = v;
+    }
+    
+    // Random helper
+    int rnd(int min, int max)
+    {
+        return min + (rand() % static_cast<int>(max - min + 1));
+    }
+    
+    int rnd()
+    {
+        return 0 + (rand() % static_cast<int>(maxV - 0 + 1));
+    }
+    
+    // Init corner values
+    void init()
+    {
+        setValue(0, 0, rnd());
+        setValue(0, size - 1, rnd());
+        setValue(size - 1, 0, rnd());
+        setValue(size - 1, size - 1, rnd());
+    }
+    
+    // Diamond step
+    void diamond(int sideLength)
+    {
+        int halfSide = sideLength / 2;
+        
+        for (int y = 0; y < size / (sideLength-1); y++)
+        {
+            for (int x = 0; x < size / (sideLength-1); x++)
+            {
+                int center_x = x*(sideLength-1) + halfSide;
+                int center_y = y*(sideLength-1) + halfSide;
+                
+                int avg = (getValue(x*(sideLength - 1), y*(sideLength - 1)) +
+                           getValue(x*(sideLength - 1), (y+1) * (sideLength - 1)) +
+                           getValue((x + 1) * (sideLength - 1), y*(sideLength - 1)) +
+                           getValue((x + 1) * (sideLength - 1), (y + 1) * (sideLength - 1)))
+                / 4.0f;
+                
+                setValue(center_x, center_y, avg + rnd(-range, range));
+            }
+        }
+        
+    }
+    
+    // Averaging helper function for square step to ignore out of bounds points
+    void average(int x, int y, int sideLength)
+    {
+        float counter = 0;
+        float accumulator = 0;
+        
+        int halfSide = sideLength / 2;
+        
+        if (x != 0)
+        {
+            counter += 1.0f;
+            accumulator += getValue(y, x - halfSide);
+        }
+        if (y != 0)
+        {
+            counter += 1.0f;
+            accumulator += getValue(y - halfSide, x);
+        }
+        if (x != size - 1)
+        {
+            counter += 1.0f;
+            accumulator += getValue(y, x + halfSide);
+        }
+        if (y != size - 1)
+        {
+            counter += 1.0f;
+            accumulator += getValue(y + halfSide, x);
+        }
+        
+        setValue(y, x, (accumulator / counter) + rnd(-range, range));
+    }
+    
+    // Square step
+    void square(int sideLength)
+    {
+        int halfLength = sideLength / 2;
+        
+        for (int y = 0; y < size / (sideLength - 1); y++)
+        {
+            for (int x = 0; x < size / (sideLength - 1); x++)
+            {
+                // Top
+                average(x*(sideLength - 1) + halfLength, y*(sideLength - 1), sideLength);
+                // Right
+                average((x + 1)*(sideLength - 1), y*(sideLength - 1) + halfLength, sideLength);
+                // Bottom
+                average(x*(sideLength - 1) + halfLength, (y+1)*(sideLength - 1), sideLength);
+                // Left
+                average(x*(sideLength - 1), y*(sideLength - 1) + halfLength, sideLength);
+            }
+        }
+    }
+    
+    // Main fractal generating loop
+    void fractal()
+    {
+        int sideLength = size/2;
+        
+        diamond(size);
+        square(size);
+        
+        range /= 2;
+        
+        while (sideLength >= 2)
+        {
+            diamond(sideLength + 1);
+            square(sideLength + 1);
+            sideLength /= 2;
+            range /= 2;
+        }
+    }
+    
+    
+    // Function to clamp all map values
+    void clamp_map()
+    {
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                int value = getValue(i, j);
+                int min = 0;
+                if (value < min) setValue(i, j, min);
+                if (value > maxV) setValue(i, j, maxV);
+            }
+        }
+    }
 };

@@ -123,16 +123,13 @@ void AMinecraftLikeTerrain::DiamondSquareTerrain()
 	int y_len = GetDepthInBlocks();
     int z_len = GetHeigthInBlocks();
 
-	DimondSquareAlghorithm* DS_Alg = new DimondSquareAlghorithm(x_len, y_len);
-
-	DS_Alg->generateDS(1);
+    DSA dsa(x_len, z_len);
 
 	for (int x = 0; x < x_len; x++)
 		for (int y = 0; y < y_len; y++)
 		{
-			double h_value = DS_Alg->getValue(x, y);
-			int height = (int)((double)z_len * h_value) + 1;
-			ChangeColumnHeight(x, y, height);
+			int h_value = dsa.getValue(x, y);
+			ChangeColumnHeight(x, y, h_value);
 		}
 	UE_LOG(LogTemp, Warning, TEXT("Diamond-Square alghorithm finished"));
 }

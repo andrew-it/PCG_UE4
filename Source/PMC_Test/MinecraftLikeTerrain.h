@@ -69,13 +69,13 @@ public:
     int stone_level;
     
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Terrain")
-    bool Perlin2D = true;
+    bool Perlin2D = false;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Terrain")
     bool Perlin3D = false;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Terrain")
     bool DimondSquare = false;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Terrain")
-    bool Mixed2D = false;
+    bool Mixed2D = true;
     
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Perlin Noise")
     int PassingNumbers = 1;
