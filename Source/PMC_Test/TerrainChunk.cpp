@@ -21,11 +21,6 @@ void ATerrainChunk::spawnObject()
 				if(maskValue)
 				{
 					FVector current_location = this->GetActorLocation();
-                    
-//                    auto comp = SMComponent->AddInstance(FTransform(current_location +
-//                                                                    FVector(BlockWidth * x,
-//                                                                            BlockDepth * y,
-//                                                                            BlockHeight * z)));
                 
                     switch(maskValue) {
                         case GRASS:
@@ -64,8 +59,6 @@ void ATerrainChunk::spawnObject()
 void ATerrainChunk::Initialize(int numberOfXBlocks, int numberOfYBlocks, int numberOfZBlocks,
                                UStaticMesh* StaticMesh)
 {
-	//Super::Initialize();
-
 	XSizeBlocks = numberOfXBlocks;
 	YSizeBlocks = numberOfYBlocks;
     ZSizeBlocks = numberOfZBlocks;

@@ -31,7 +31,7 @@ void AProceduralBlockBase3D::BeginPlay()
 	Super::BeginPlay();
 }
 
-void AProceduralBlockBase3D::setMaskValue(int32 x, int32 y, int32 z, bool value)
+void AProceduralBlockBase3D::setMaskValue(int32 x, int32 y, int32 z, int value)
 {
 	mask_array[x + y * XSizeBlocks + z * XSizeBlocks * YSizeBlocks] = value;
 }

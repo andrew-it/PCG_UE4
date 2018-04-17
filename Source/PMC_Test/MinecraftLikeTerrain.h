@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -29,6 +27,8 @@ protected:
 	virtual void PerlinNoise3DTerrain(int number_of_passings);
 	virtual void DiamondSquareTerrain();
 	virtual void Mixed2DTerrain(int number_of_perlin_passings);
+    
+    virtual void ChangeBlock(int x, int y, int z, int value);
 
 	virtual int GetLengthInBlocks() { return terrain_edge_length * chunk_length; }
 	virtual int GetDepthInBlocks() { return terrain_edge_length * chunk_depth; }
@@ -67,6 +67,26 @@ public:
     int dirt_level;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Terrain heights")
     int stone_level;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Terrain")
+    bool Perlin2D = true;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Terrain")
+    bool Perlin3D = false;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Terrain")
+    bool DimondSquare = false;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Terrain")
+    bool Mixed2D = false;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Perlin Noise")
+    int PassingNumbers = 1;
+    
+    // For Perlin Noise
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Perlin Noise")
+    int32 Seed = 0;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Perlin Noise")
+    float Octaves = 1;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Perlin Noise")
+    float Frequency = 3;
     
     float BlockWidth = 0;
     float BlockDepth = 0;

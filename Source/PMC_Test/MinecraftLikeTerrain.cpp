@@ -2,6 +2,7 @@
 
 #include "MinecraftLikeTerrain.h"
 #include "DimondSquareAlghorithm.h"
+#include "TerrainTypes.h"
 
 
 // Sets default values
@@ -29,8 +30,15 @@ void AMinecraftLikeTerrain::Initialize()
 	}
 
 	InitChunks();
-
-	DiamondSquareTerrain();
+    
+    if (Perlin2D)
+        PerlinNoise2DTerrain(this->PassingNumbers);
+    if (Perlin3D)
+        PerlinNoise3DTerrain(this->PassingNumbers);
+    if (DimondSquare)
+        DiamondSquareTerrain();
+    if (Mixed2D)
+        Mixed2DTerrain(this->PassingNumbers);
 
 	SpawnChunks();
 }
@@ -72,10 +80,41 @@ void AMinecraftLikeTerrain::InitChunks()
 
 void AMinecraftLikeTerrain::PerlinNoise2DTerrain(int number_of_passings)
 {
+    int x_len = GetLengthInBlocks();
+    int y_len = GetDepthInBlocks();
+    int z_len = GetHeigthInBlocks();
+    
+    const double fx = x_len / Frequency;
+    const double fy = y_len / Frequency;
+    const siv::PerlinNoise perlin(Seed);
+    
+    for (int x = 0; x < x_len; x++)
+        for (int y = 0; y < y_len; y++)
+        {
+            double h_value = perlin.octaveNoise0_1(x / fx, y / fy, Octaves);
+            int height = (int)((double)z_len * h_value) + 1;
+            ChangeColumnHeight(x, y, height);
+        }
 }
 
 void AMinecraftLikeTerrain::PerlinNoise3DTerrain(int number_of_passings)
 {
+    int x_len = GetLengthInBlocks();
+    int y_len = GetDepthInBlocks();
+    int z_len = GetHeigthInBlocks();
+    
+    const double fx = x_len / Frequency;
+    const double fy = y_len / Frequency;
+    const double fz = z_len / Frequency;
+    const siv::PerlinNoise perlin(Seed);
+    
+    for (int x = 0; x < x_len; x++)
+        for (int y = 0; y < y_len; y++)
+            for (int z = 0; z < z_len; z++)
+            {
+                bool isBlock = perlin.octaveNoise0_1(x / fx, y / fy, z / fz, Octaves) > 0.5;
+                ChangeBlock(x, y, z, isBlock);
+            }
 }
 
 void AMinecraftLikeTerrain::DiamondSquareTerrain()
@@ -92,7 +131,7 @@ void AMinecraftLikeTerrain::DiamondSquareTerrain()
 		for (int y = 0; y < y_len; y++)
 		{
 			double h_value = DS_Alg->getValue(x, y);
-			int height = (int)((double)(z_len / 2) * h_value) + z_len / 2;
+			int height = (int)((double)z_len * h_value) + 1;
 			ChangeColumnHeight(x, y, height);
 		}
 	UE_LOG(LogTemp, Warning, TEXT("Diamond-Square alghorithm finished"));
@@ -100,6 +139,32 @@ void AMinecraftLikeTerrain::DiamondSquareTerrain()
 
 void AMinecraftLikeTerrain::Mixed2DTerrain(int number_of_perlin_passings)
 {
+    int x_len = GetLengthInBlocks();
+    int y_len = GetDepthInBlocks();
+    int z_len = GetHeigthInBlocks();
+    
+    const double fx = x_len / Frequency;
+    const double fy = y_len / Frequency;
+    const double fz = z_len / Frequency;
+    const siv::PerlinNoise perlin(Seed);
+    
+    for (int x = 0; x < x_len; x++)
+        for (int y = 0; y < y_len; y++)
+        {
+            double h_value = perlin.octaveNoise0_1(x / fx, y / fy, Octaves);
+            int height = (int)((double)z_len * h_value) + 1;
+            ChangeColumnHeight(x, y, height);
+        }
+    
+    for (int x = x_len*.4; x < x_len*.6; x++)
+        for (int y = y_len*.4; y < y_len*.6; y++)
+        {
+            for (int z = 0; z < z_len - z_len*0.6; z++)
+            {
+                bool isBlock = perlin.octaveNoise0_1(x / fx, y / fy, z / fz, Octaves) > 0.7;
+                ChangeBlock(x, y, z, isBlock);
+            }
+        }
 }
 
 bool AMinecraftLikeTerrain::ChangeBlockValue(int x, int y, int z, int value)
@@ -133,11 +198,50 @@ bool AMinecraftLikeTerrain::ChangeBlockValue(int x, int y, int z, int value)
 
 void AMinecraftLikeTerrain::ChangeColumnHeight(int x, int y, int height)
 {
+    int water_level = GetHeigthInBlocks() / 3;
+    int ground_level = GetHeigthInBlocks() / 2;
 	for (int h = 0; h < GetHeigthInBlocks(); h++)
-        if (h < height)
-            ChangeBlockValue(x, y, h, 1);
+    {
+        if (h == height)
+            ChangeBlockValue(x, y, h, GRASS);
+        else if (h < height)
+        {
+            if (h < ground_level)
+                ChangeBlockValue(x, y, h, GRASS);
+            else
+                ChangeBlockValue(x, y, h, STONE);
+        }
         else
-            ChangeBlockValue(x, y, h, 0);
+        {
+            if (h < water_level)
+                ChangeBlockValue(x, y, h, WATER);
+            else
+                ChangeBlockValue(x, y, h, NONE);
+        }
+    }
+}
+
+void AMinecraftLikeTerrain::ChangeBlock(int x, int y, int z, int value)
+{
+    int water_level = GetHeigthInBlocks() / 3;
+    int ground_level = GetHeigthInBlocks() / 2;
+    
+    if (z < ground_level)
+    {
+        if (value)
+            ChangeBlockValue(x, y, z, GRASS);
+        else if (z < water_level)
+            ChangeBlockValue(x, y, z, WATER);
+        else
+            ChangeBlockValue(x, y, z, NONE);
+    }
+    else
+    {
+        if (value)
+            ChangeBlockValue(x, y, z, GRASS);
+        else
+            ChangeBlockValue(x, y, z, NONE);
+    }
 }
 
 ATerrainChunk * AMinecraftLikeTerrain::GetChunkByCoord(int x, int y)
