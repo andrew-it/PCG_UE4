@@ -1,4 +1,4 @@
-# Procedural brick wall and a plane for UE4
+# Procedural brick wall and Minecraft-like terrain for UE4
 
 ## Hierarchy
 *  ```Actor``` (Build in UE4)
@@ -32,3 +32,6 @@ Features:
 Class ```AProceduralPlane```
 
 Just plain, constructed by four triangles: per two on a side. (Code from some tutorual in the internet)
+
+## The terrain
+
